@@ -1,0 +1,37 @@
+﻿@model SistemaBasico001.Models.Notas_Alunos_Turmas_Materias
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Notas_Alunos_Turmas_Materias</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IDNotAlunoTurmaMateria)
+
+        @Html.HiddenFor(model => model.IDAluno)
+
+        @Html.HiddenFor(model => model.IDTurma)
+
+        @Html.HiddenFor(model => model.IDMateria)
+
+        @Html.HiddenFor(model => model.IDNota)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

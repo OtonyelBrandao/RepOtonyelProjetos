@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1aa9017451964b86be315bf7b8b26c1e" Name="Diagram1">
+        <EntityTypeShape EntityType="SistemaBasico001Model.alunos" Width="1.5" PointX="0.75" PointY="3.375" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.Alunos_Materias" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.Alunos_Professores" Width="1.5" PointX="6" PointY="11.625" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.Alunos_Turmas" Width="1.5" PointX="3" PointY="4.75" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.Materia_Turmas" Width="1.5" PointX="3" PointY="10.75" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.materias" Width="1.5" PointX="3.75" PointY="1.5" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.Materias_Professores" Width="1.5" PointX="6" PointY="3.75" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.nota" Width="1.5" PointX="6" PointY="7" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.professores" Width="1.5" PointX="0.75" PointY="11.5" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.Professores_Alunos" Width="1.5" PointX="3" PointY="7.75" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.sysdiagrams" Width="1.5" PointX="8.75" PointY="2.25" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.turmas" Width="1.5" PointX="0.75" PointY="7.625" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Alunos_Materias_alunos" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Alunos_Professores_alunos" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Alunos_Turmas_alunos" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_nota_alunos" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Alunos_Materias_materias" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Alunos_Professores_professores" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Alunos_Turmas_turmas" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Materia_Turmas_materias" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Materia_Turmas_turmas" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Materias_Professores_materias" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_nota_materias" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Materias_Professores_professores" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_nota_turmas" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Professores_Alunos_professores" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Professores_Alunos_turmas" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

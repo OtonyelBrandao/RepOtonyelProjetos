@@ -1,0 +1,906 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SistemaBasico001Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="alunos">
+          <Key>
+            <PropertyRef Name="Matricula" />
+          </Key>
+          <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Matricula" Type="int" Nullable="false" />
+          <Property Name="Nascimento" Type="date" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Alunos_Materias">
+          <Key>
+            <PropertyRef Name="IDAlunoMateria" />
+          </Key>
+          <Property Name="IDAlunoMateria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Aluno" Type="int" Nullable="false" />
+          <Property Name="Materia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Alunos_Professores">
+          <Key>
+            <PropertyRef Name="IDFKAlunosProfessores" />
+          </Key>
+          <Property Name="IDFKAlunosProfessores" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDAluno" Type="int" Nullable="false" />
+          <Property Name="IDProfessor" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Alunos_Turmas">
+          <Key>
+            <PropertyRef Name="IDAlunoTurma" />
+          </Key>
+          <Property Name="IDAlunoTurma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDAlunos" Type="int" Nullable="false" />
+          <Property Name="IDTurma" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Materia_Turmas">
+          <Key>
+            <PropertyRef Name="idMateriaTurma" />
+          </Key>
+          <Property Name="idMateriaTurma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idTurma" Type="int" Nullable="false" />
+          <Property Name="idMateria" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="materias">
+          <Key>
+            <PropertyRef Name="IdMateria" />
+          </Key>
+          <Property Name="IdMateria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Materias_Professores">
+          <Key>
+            <PropertyRef Name="IDMateriaProfessor" />
+          </Key>
+          <Property Name="IDMateriaProfessor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDMateria" Type="int" Nullable="false" />
+          <Property Name="IDProfessor" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="nota">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nota" Type="real" Nullable="false" />
+          <Property Name="dataCreate" Type="date" Nullable="false" />
+          <Property Name="dataUpdate" Type="date" />
+          <Property Name="Criador" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Atualizador" Type="nvarchar" MaxLength="200" />
+          <Property Name="IDAluno" Type="int" Nullable="false" />
+          <Property Name="IDTurma" Type="int" Nullable="false" />
+          <Property Name="IDMateria" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="professores">
+          <Key>
+            <PropertyRef Name="Senha" />
+          </Key>
+          <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Nascimento" Type="date" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Senha" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Professores_Alunos">
+          <Key>
+            <PropertyRef Name="IDProfessorTurma" />
+          </Key>
+          <Property Name="IDProfessorTurma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDProfessor" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="IDTurma" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="turmas">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="ano" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Alunos_Materias_alunos">
+          <End Role="alunos" Type="Self.alunos" Multiplicity="1" />
+          <End Role="Alunos_Materias" Type="Self.Alunos_Materias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Alunos_Materias">
+              <PropertyRef Name="Aluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Materias_materias">
+          <End Role="materias" Type="Self.materias" Multiplicity="1" />
+          <End Role="Alunos_Materias" Type="Self.Alunos_Materias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="Alunos_Materias">
+              <PropertyRef Name="Materia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Professores_alunos">
+          <End Role="alunos" Type="Self.alunos" Multiplicity="1" />
+          <End Role="Alunos_Professores" Type="Self.Alunos_Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Alunos_Professores">
+              <PropertyRef Name="IDAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Professores_professores">
+          <End Role="professores" Type="Self.professores" Multiplicity="1" />
+          <End Role="Alunos_Professores" Type="Self.Alunos_Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professores">
+              <PropertyRef Name="Senha" />
+            </Principal>
+            <Dependent Role="Alunos_Professores">
+              <PropertyRef Name="IDProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Turmas_alunos">
+          <End Role="alunos" Type="Self.alunos" Multiplicity="1" />
+          <End Role="Alunos_Turmas" Type="Self.Alunos_Turmas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Alunos_Turmas">
+              <PropertyRef Name="IDAlunos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Turmas_turmas">
+          <End Role="turmas" Type="Self.turmas" Multiplicity="1" />
+          <End Role="Alunos_Turmas" Type="Self.Alunos_Turmas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Alunos_Turmas">
+              <PropertyRef Name="IDTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materia_Turmas_materias">
+          <End Role="materias" Type="Self.materias" Multiplicity="1" />
+          <End Role="Materia_Turmas" Type="Self.Materia_Turmas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="Materia_Turmas">
+              <PropertyRef Name="idMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materia_Turmas_turmas">
+          <End Role="turmas" Type="Self.turmas" Multiplicity="1" />
+          <End Role="Materia_Turmas" Type="Self.Materia_Turmas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Materia_Turmas">
+              <PropertyRef Name="idTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materias_Professores_materias">
+          <End Role="materias" Type="Self.materias" Multiplicity="1" />
+          <End Role="Materias_Professores" Type="Self.Materias_Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="Materias_Professores">
+              <PropertyRef Name="IDMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materias_Professores_professores">
+          <End Role="professores" Type="Self.professores" Multiplicity="1" />
+          <End Role="Materias_Professores" Type="Self.Materias_Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professores">
+              <PropertyRef Name="Senha" />
+            </Principal>
+            <Dependent Role="Materias_Professores">
+              <PropertyRef Name="IDProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nota_alunos">
+          <End Role="alunos" Type="Self.alunos" Multiplicity="1" />
+          <End Role="nota" Type="Self.nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nota_materias">
+          <End Role="materias" Type="Self.materias" Multiplicity="1" />
+          <End Role="nota" Type="Self.nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nota_turmas">
+          <End Role="turmas" Type="Self.turmas" Multiplicity="1" />
+          <End Role="nota" Type="Self.nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professores_Alunos_professores">
+          <End Role="professores" Type="Self.professores" Multiplicity="1" />
+          <End Role="Professores_Alunos" Type="Self.Professores_Alunos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professores">
+              <PropertyRef Name="Senha" />
+            </Principal>
+            <Dependent Role="Professores_Alunos">
+              <PropertyRef Name="IDProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professores_Alunos_turmas">
+          <End Role="turmas" Type="Self.turmas" Multiplicity="1" />
+          <End Role="Professores_Alunos" Type="Self.Professores_Alunos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Professores_Alunos">
+              <PropertyRef Name="IDTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SistemaBasico001ModelStoreContainer">
+          <EntitySet Name="alunos" EntityType="Self.alunos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Alunos_Materias" EntityType="Self.Alunos_Materias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Alunos_Professores" EntityType="Self.Alunos_Professores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Alunos_Turmas" EntityType="Self.Alunos_Turmas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Materia_Turmas" EntityType="Self.Materia_Turmas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="materias" EntityType="Self.materias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Materias_Professores" EntityType="Self.Materias_Professores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="nota" EntityType="Self.nota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="professores" EntityType="Self.professores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Professores_Alunos" EntityType="Self.Professores_Alunos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="turmas" EntityType="Self.turmas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Alunos_Materias_alunos" Association="Self.FK_Alunos_Materias_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="Alunos_Materias" EntitySet="Alunos_Materias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Materias_materias" Association="Self.FK_Alunos_Materias_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="Alunos_Materias" EntitySet="Alunos_Materias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Professores_alunos" Association="Self.FK_Alunos_Professores_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="Alunos_Professores" EntitySet="Alunos_Professores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Professores_professores" Association="Self.FK_Alunos_Professores_professores">
+            <End Role="professores" EntitySet="professores" />
+            <End Role="Alunos_Professores" EntitySet="Alunos_Professores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Turmas_alunos" Association="Self.FK_Alunos_Turmas_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="Alunos_Turmas" EntitySet="Alunos_Turmas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Turmas_turmas" Association="Self.FK_Alunos_Turmas_turmas">
+            <End Role="turmas" EntitySet="turmas" />
+            <End Role="Alunos_Turmas" EntitySet="Alunos_Turmas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materia_Turmas_materias" Association="Self.FK_Materia_Turmas_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="Materia_Turmas" EntitySet="Materia_Turmas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materia_Turmas_turmas" Association="Self.FK_Materia_Turmas_turmas">
+            <End Role="turmas" EntitySet="turmas" />
+            <End Role="Materia_Turmas" EntitySet="Materia_Turmas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materias_Professores_materias" Association="Self.FK_Materias_Professores_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="Materias_Professores" EntitySet="Materias_Professores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materias_Professores_professores" Association="Self.FK_Materias_Professores_professores">
+            <End Role="professores" EntitySet="professores" />
+            <End Role="Materias_Professores" EntitySet="Materias_Professores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nota_alunos" Association="Self.FK_nota_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nota_materias" Association="Self.FK_nota_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nota_turmas" Association="Self.FK_nota_turmas">
+            <End Role="turmas" EntitySet="turmas" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professores_Alunos_professores" Association="Self.FK_Professores_Alunos_professores">
+            <End Role="professores" EntitySet="professores" />
+            <End Role="Professores_Alunos" EntitySet="Professores_Alunos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professores_Alunos_turmas" Association="Self.FK_Professores_Alunos_turmas">
+            <End Role="turmas" EntitySet="turmas" />
+            <End Role="Professores_Alunos" EntitySet="Professores_Alunos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SistemaBasico001Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SistemaBasico001Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="alunos" EntityType="SistemaBasico001Model.alunos" />
+          <EntitySet Name="Alunos_Materias" EntityType="SistemaBasico001Model.Alunos_Materias" />
+          <EntitySet Name="Alunos_Professores" EntityType="SistemaBasico001Model.Alunos_Professores" />
+          <EntitySet Name="Alunos_Turmas" EntityType="SistemaBasico001Model.Alunos_Turmas" />
+          <EntitySet Name="Materia_Turmas" EntityType="SistemaBasico001Model.Materia_Turmas" />
+          <EntitySet Name="materias" EntityType="SistemaBasico001Model.materias" />
+          <EntitySet Name="Materias_Professores" EntityType="SistemaBasico001Model.Materias_Professores" />
+          <EntitySet Name="nota" EntityType="SistemaBasico001Model.nota" />
+          <EntitySet Name="professores" EntityType="SistemaBasico001Model.professores" />
+          <EntitySet Name="Professores_Alunos" EntityType="SistemaBasico001Model.Professores_Alunos" />
+          <EntitySet Name="sysdiagrams" EntityType="SistemaBasico001Model.sysdiagrams" />
+          <EntitySet Name="turmas" EntityType="SistemaBasico001Model.turmas" />
+          <AssociationSet Name="FK_Alunos_Materias_alunos" Association="SistemaBasico001Model.FK_Alunos_Materias_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="Alunos_Materias" EntitySet="Alunos_Materias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Professores_alunos" Association="SistemaBasico001Model.FK_Alunos_Professores_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="Alunos_Professores" EntitySet="Alunos_Professores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Turmas_alunos" Association="SistemaBasico001Model.FK_Alunos_Turmas_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="Alunos_Turmas" EntitySet="Alunos_Turmas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nota_alunos" Association="SistemaBasico001Model.FK_nota_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Materias_materias" Association="SistemaBasico001Model.FK_Alunos_Materias_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="Alunos_Materias" EntitySet="Alunos_Materias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Professores_professores" Association="SistemaBasico001Model.FK_Alunos_Professores_professores">
+            <End Role="professores" EntitySet="professores" />
+            <End Role="Alunos_Professores" EntitySet="Alunos_Professores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Turmas_turmas" Association="SistemaBasico001Model.FK_Alunos_Turmas_turmas">
+            <End Role="turmas" EntitySet="turmas" />
+            <End Role="Alunos_Turmas" EntitySet="Alunos_Turmas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materia_Turmas_materias" Association="SistemaBasico001Model.FK_Materia_Turmas_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="Materia_Turmas" EntitySet="Materia_Turmas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materia_Turmas_turmas" Association="SistemaBasico001Model.FK_Materia_Turmas_turmas">
+            <End Role="turmas" EntitySet="turmas" />
+            <End Role="Materia_Turmas" EntitySet="Materia_Turmas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materias_Professores_materias" Association="SistemaBasico001Model.FK_Materias_Professores_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="Materias_Professores" EntitySet="Materias_Professores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nota_materias" Association="SistemaBasico001Model.FK_nota_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materias_Professores_professores" Association="SistemaBasico001Model.FK_Materias_Professores_professores">
+            <End Role="professores" EntitySet="professores" />
+            <End Role="Materias_Professores" EntitySet="Materias_Professores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nota_turmas" Association="SistemaBasico001Model.FK_nota_turmas">
+            <End Role="turmas" EntitySet="turmas" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professores_Alunos_professores" Association="SistemaBasico001Model.FK_Professores_Alunos_professores">
+            <End Role="professores" EntitySet="professores" />
+            <End Role="Professores_Alunos" EntitySet="Professores_Alunos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professores_Alunos_turmas" Association="SistemaBasico001Model.FK_Professores_Alunos_turmas">
+            <End Role="turmas" EntitySet="turmas" />
+            <End Role="Professores_Alunos" EntitySet="Professores_Alunos" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="alunos">
+          <Key>
+            <PropertyRef Name="Matricula" />
+          </Key>
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Matricula" Type="Int32" Nullable="false" />
+          <Property Name="Nascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Alunos_Materias" Relationship="SistemaBasico001Model.FK_Alunos_Materias_alunos" FromRole="alunos" ToRole="Alunos_Materias" />
+          <NavigationProperty Name="Alunos_Professores" Relationship="SistemaBasico001Model.FK_Alunos_Professores_alunos" FromRole="alunos" ToRole="Alunos_Professores" />
+          <NavigationProperty Name="Alunos_Turmas" Relationship="SistemaBasico001Model.FK_Alunos_Turmas_alunos" FromRole="alunos" ToRole="Alunos_Turmas" />
+          <NavigationProperty Name="nota" Relationship="SistemaBasico001Model.FK_nota_alunos" FromRole="alunos" ToRole="nota" />
+        </EntityType>
+        <EntityType Name="Alunos_Materias">
+          <Key>
+            <PropertyRef Name="IDAlunoMateria" />
+          </Key>
+          <Property Name="IDAlunoMateria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Aluno" Type="Int32" Nullable="false" />
+          <Property Name="Materia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="alunos" Relationship="SistemaBasico001Model.FK_Alunos_Materias_alunos" FromRole="Alunos_Materias" ToRole="alunos" />
+          <NavigationProperty Name="materias" Relationship="SistemaBasico001Model.FK_Alunos_Materias_materias" FromRole="Alunos_Materias" ToRole="materias" />
+        </EntityType>
+        <EntityType Name="Alunos_Professores">
+          <Key>
+            <PropertyRef Name="IDFKAlunosProfessores" />
+          </Key>
+          <Property Name="IDFKAlunosProfessores" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDAluno" Type="Int32" Nullable="false" />
+          <Property Name="IDProfessor" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="alunos" Relationship="SistemaBasico001Model.FK_Alunos_Professores_alunos" FromRole="Alunos_Professores" ToRole="alunos" />
+          <NavigationProperty Name="professores" Relationship="SistemaBasico001Model.FK_Alunos_Professores_professores" FromRole="Alunos_Professores" ToRole="professores" />
+        </EntityType>
+        <EntityType Name="Alunos_Turmas">
+          <Key>
+            <PropertyRef Name="IDAlunoTurma" />
+          </Key>
+          <Property Name="IDAlunoTurma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDAlunos" Type="Int32" Nullable="false" />
+          <Property Name="IDTurma" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="alunos" Relationship="SistemaBasico001Model.FK_Alunos_Turmas_alunos" FromRole="Alunos_Turmas" ToRole="alunos" />
+          <NavigationProperty Name="turmas" Relationship="SistemaBasico001Model.FK_Alunos_Turmas_turmas" FromRole="Alunos_Turmas" ToRole="turmas" />
+        </EntityType>
+        <EntityType Name="Materia_Turmas">
+          <Key>
+            <PropertyRef Name="idMateriaTurma" />
+          </Key>
+          <Property Name="idMateriaTurma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idTurma" Type="Int32" Nullable="false" />
+          <Property Name="idMateria" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="materias" Relationship="SistemaBasico001Model.FK_Materia_Turmas_materias" FromRole="Materia_Turmas" ToRole="materias" />
+          <NavigationProperty Name="turmas" Relationship="SistemaBasico001Model.FK_Materia_Turmas_turmas" FromRole="Materia_Turmas" ToRole="turmas" />
+        </EntityType>
+        <EntityType Name="materias">
+          <Key>
+            <PropertyRef Name="IdMateria" />
+          </Key>
+          <Property Name="IdMateria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descricao" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Alunos_Materias" Relationship="SistemaBasico001Model.FK_Alunos_Materias_materias" FromRole="materias" ToRole="Alunos_Materias" />
+          <NavigationProperty Name="Materia_Turmas" Relationship="SistemaBasico001Model.FK_Materia_Turmas_materias" FromRole="materias" ToRole="Materia_Turmas" />
+          <NavigationProperty Name="Materias_Professores" Relationship="SistemaBasico001Model.FK_Materias_Professores_materias" FromRole="materias" ToRole="Materias_Professores" />
+          <NavigationProperty Name="nota" Relationship="SistemaBasico001Model.FK_nota_materias" FromRole="materias" ToRole="nota" />
+        </EntityType>
+        <EntityType Name="Materias_Professores">
+          <Key>
+            <PropertyRef Name="IDMateriaProfessor" />
+          </Key>
+          <Property Name="IDMateriaProfessor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDMateria" Type="Int32" Nullable="false" />
+          <Property Name="IDProfessor" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="materias" Relationship="SistemaBasico001Model.FK_Materias_Professores_materias" FromRole="Materias_Professores" ToRole="materias" />
+          <NavigationProperty Name="professores" Relationship="SistemaBasico001Model.FK_Materias_Professores_professores" FromRole="Materias_Professores" ToRole="professores" />
+        </EntityType>
+        <EntityType Name="nota">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nota1" Type="Single" Nullable="false" />
+          <Property Name="dataCreate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dataUpdate" Type="DateTime" Precision="0" />
+          <Property Name="Criador" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Atualizador" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IDAluno" Type="Int32" Nullable="false" />
+          <Property Name="IDTurma" Type="Int32" Nullable="false" />
+          <Property Name="IDMateria" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="alunos" Relationship="SistemaBasico001Model.FK_nota_alunos" FromRole="nota" ToRole="alunos" />
+          <NavigationProperty Name="materias" Relationship="SistemaBasico001Model.FK_nota_materias" FromRole="nota" ToRole="materias" />
+          <NavigationProperty Name="turmas" Relationship="SistemaBasico001Model.FK_nota_turmas" FromRole="nota" ToRole="turmas" />
+        </EntityType>
+        <EntityType Name="professores">
+          <Key>
+            <PropertyRef Name="Senha" />
+          </Key>
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Nascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Senha" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Alunos_Professores" Relationship="SistemaBasico001Model.FK_Alunos_Professores_professores" FromRole="professores" ToRole="Alunos_Professores" />
+          <NavigationProperty Name="Materias_Professores" Relationship="SistemaBasico001Model.FK_Materias_Professores_professores" FromRole="professores" ToRole="Materias_Professores" />
+          <NavigationProperty Name="Professores_Alunos" Relationship="SistemaBasico001Model.FK_Professores_Alunos_professores" FromRole="professores" ToRole="Professores_Alunos" />
+        </EntityType>
+        <EntityType Name="Professores_Alunos">
+          <Key>
+            <PropertyRef Name="IDProfessorTurma" />
+          </Key>
+          <Property Name="IDProfessorTurma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDProfessor" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="IDTurma" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="professores" Relationship="SistemaBasico001Model.FK_Professores_Alunos_professores" FromRole="Professores_Alunos" ToRole="professores" />
+          <NavigationProperty Name="turmas" Relationship="SistemaBasico001Model.FK_Professores_Alunos_turmas" FromRole="Professores_Alunos" ToRole="turmas" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="turmas">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <Property Name="ano" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Alunos_Turmas" Relationship="SistemaBasico001Model.FK_Alunos_Turmas_turmas" FromRole="turmas" ToRole="Alunos_Turmas" />
+          <NavigationProperty Name="Materia_Turmas" Relationship="SistemaBasico001Model.FK_Materia_Turmas_turmas" FromRole="turmas" ToRole="Materia_Turmas" />
+          <NavigationProperty Name="nota" Relationship="SistemaBasico001Model.FK_nota_turmas" FromRole="turmas" ToRole="nota" />
+          <NavigationProperty Name="Professores_Alunos" Relationship="SistemaBasico001Model.FK_Professores_Alunos_turmas" FromRole="turmas" ToRole="Professores_Alunos" />
+        </EntityType>
+        <Association Name="FK_Alunos_Materias_alunos">
+          <End Type="SistemaBasico001Model.alunos" Role="alunos" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Alunos_Materias" Role="Alunos_Materias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Alunos_Materias">
+              <PropertyRef Name="Aluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Professores_alunos">
+          <End Type="SistemaBasico001Model.alunos" Role="alunos" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Alunos_Professores" Role="Alunos_Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Alunos_Professores">
+              <PropertyRef Name="IDAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Turmas_alunos">
+          <End Type="SistemaBasico001Model.alunos" Role="alunos" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Alunos_Turmas" Role="Alunos_Turmas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Alunos_Turmas">
+              <PropertyRef Name="IDAlunos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nota_alunos">
+          <End Type="SistemaBasico001Model.alunos" Role="alunos" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.nota" Role="nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Materias_materias">
+          <End Type="SistemaBasico001Model.materias" Role="materias" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Alunos_Materias" Role="Alunos_Materias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="Alunos_Materias">
+              <PropertyRef Name="Materia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Professores_professores">
+          <End Type="SistemaBasico001Model.professores" Role="professores" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Alunos_Professores" Role="Alunos_Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professores">
+              <PropertyRef Name="Senha" />
+            </Principal>
+            <Dependent Role="Alunos_Professores">
+              <PropertyRef Name="IDProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Turmas_turmas">
+          <End Type="SistemaBasico001Model.turmas" Role="turmas" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Alunos_Turmas" Role="Alunos_Turmas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Alunos_Turmas">
+              <PropertyRef Name="IDTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materia_Turmas_materias">
+          <End Type="SistemaBasico001Model.materias" Role="materias" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Materia_Turmas" Role="Materia_Turmas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="Materia_Turmas">
+              <PropertyRef Name="idMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materia_Turmas_turmas">
+          <End Type="SistemaBasico001Model.turmas" Role="turmas" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Materia_Turmas" Role="Materia_Turmas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Materia_Turmas">
+              <PropertyRef Name="idTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materias_Professores_materias">
+          <End Type="SistemaBasico001Model.materias" Role="materias" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Materias_Professores" Role="Materias_Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="Materias_Professores">
+              <PropertyRef Name="IDMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nota_materias">
+          <End Type="SistemaBasico001Model.materias" Role="materias" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.nota" Role="nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materias_Professores_professores">
+          <End Type="SistemaBasico001Model.professores" Role="professores" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Materias_Professores" Role="Materias_Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professores">
+              <PropertyRef Name="Senha" />
+            </Principal>
+            <Dependent Role="Materias_Professores">
+              <PropertyRef Name="IDProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nota_turmas">
+          <End Type="SistemaBasico001Model.turmas" Role="turmas" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.nota" Role="nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professores_Alunos_professores">
+          <End Type="SistemaBasico001Model.professores" Role="professores" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Professores_Alunos" Role="Professores_Alunos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professores">
+              <PropertyRef Name="Senha" />
+            </Principal>
+            <Dependent Role="Professores_Alunos">
+              <PropertyRef Name="IDProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professores_Alunos_turmas">
+          <End Type="SistemaBasico001Model.turmas" Role="turmas" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Professores_Alunos" Role="Professores_Alunos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Professores_Alunos">
+              <PropertyRef Name="IDTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SistemaBasico001ModelStoreContainer" CdmEntityContainer="SistemaBasico001Entities">
+          <EntitySetMapping Name="alunos">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.alunos">
+              <MappingFragment StoreEntitySet="alunos">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Nascimento" ColumnName="Nascimento" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alunos_Materias">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.Alunos_Materias">
+              <MappingFragment StoreEntitySet="Alunos_Materias">
+                <ScalarProperty Name="Materia" ColumnName="Materia" />
+                <ScalarProperty Name="Aluno" ColumnName="Aluno" />
+                <ScalarProperty Name="IDAlunoMateria" ColumnName="IDAlunoMateria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alunos_Professores">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.Alunos_Professores">
+              <MappingFragment StoreEntitySet="Alunos_Professores">
+                <ScalarProperty Name="IDProfessor" ColumnName="IDProfessor" />
+                <ScalarProperty Name="IDAluno" ColumnName="IDAluno" />
+                <ScalarProperty Name="IDFKAlunosProfessores" ColumnName="IDFKAlunosProfessores" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alunos_Turmas">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.Alunos_Turmas">
+              <MappingFragment StoreEntitySet="Alunos_Turmas">
+                <ScalarProperty Name="IDTurma" ColumnName="IDTurma" />
+                <ScalarProperty Name="IDAlunos" ColumnName="IDAlunos" />
+                <ScalarProperty Name="IDAlunoTurma" ColumnName="IDAlunoTurma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materia_Turmas">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.Materia_Turmas">
+              <MappingFragment StoreEntitySet="Materia_Turmas">
+                <ScalarProperty Name="idMateria" ColumnName="idMateria" />
+                <ScalarProperty Name="idTurma" ColumnName="idTurma" />
+                <ScalarProperty Name="idMateriaTurma" ColumnName="idMateriaTurma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="materias">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.materias">
+              <MappingFragment StoreEntitySet="materias">
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materias_Professores">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.Materias_Professores">
+              <MappingFragment StoreEntitySet="Materias_Professores">
+                <ScalarProperty Name="IDProfessor" ColumnName="IDProfessor" />
+                <ScalarProperty Name="IDMateria" ColumnName="IDMateria" />
+                <ScalarProperty Name="IDMateriaProfessor" ColumnName="IDMateriaProfessor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nota">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.nota">
+              <MappingFragment StoreEntitySet="nota">
+                <ScalarProperty Name="IDMateria" ColumnName="IDMateria" />
+                <ScalarProperty Name="IDTurma" ColumnName="IDTurma" />
+                <ScalarProperty Name="IDAluno" ColumnName="IDAluno" />
+                <ScalarProperty Name="Atualizador" ColumnName="Atualizador" />
+                <ScalarProperty Name="Criador" ColumnName="Criador" />
+                <ScalarProperty Name="dataUpdate" ColumnName="dataUpdate" />
+                <ScalarProperty Name="dataCreate" ColumnName="dataCreate" />
+                <ScalarProperty Name="Nota1" ColumnName="Nota" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="professores">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.professores">
+              <MappingFragment StoreEntitySet="professores">
+                <ScalarProperty Name="Senha" ColumnName="Senha" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Nascimento" ColumnName="Nascimento" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Professores_Alunos">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.Professores_Alunos">
+              <MappingFragment StoreEntitySet="Professores_Alunos">
+                <ScalarProperty Name="IDTurma" ColumnName="IDTurma" />
+                <ScalarProperty Name="IDProfessor" ColumnName="IDProfessor" />
+                <ScalarProperty Name="IDProfessorTurma" ColumnName="IDProfessorTurma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="turmas">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.turmas">
+              <MappingFragment StoreEntitySet="turmas">
+                <ScalarProperty Name="ano" ColumnName="ano" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SistemaBasico001.Models.professores>
+
+@{
+    ViewBag.Title = "Inicio Professores";
+}
+
+<h2>Professores</h2>
+
+<p>
+    @Html.ActionLink("Cadastrar Novo Professor", "Create", "", new { @class = "btn btn-primary" })
+</p>
+<form method="post">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nascimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            string Nascimento = string.Format("{0:dd/MM/yyyy}", item.Nascimento);
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Nascimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-primary" formaction="~/professores/Edit" value="@item.Senha" name="Senha">Editar</button>
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-success" formaction="~/Professores_Turmas/Details" value="@item.Senha" name="Senha">Detalhes</button>
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-danger" formaction="~/professores/Delete" value="@item.Senha" name="Senha">Deletar</button>
+                </td>
+
+            </tr>
+        }
+    </table>
+</form>

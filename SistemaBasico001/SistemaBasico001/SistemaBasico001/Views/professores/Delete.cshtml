@@ -1,0 +1,49 @@
+﻿@model SistemaBasico001.Models.professores
+
+@{
+    ViewBag.Title = "Deletar Professores";
+    string Nascimento = string.Format("{0:dd/MM/yyyy}", Model.Nascimento);
+}
+
+<h2>Deletar</h2>
+
+<h3>Tem certeza de que deseja excluir?</h3>
+<div>
+    <h4>Professores</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nascimento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Nascimento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("DeleteConfirmed", "professores",FormMethod.Post)) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" class="btn btn-danger" />
+            @Html.ActionLink("Voltar", "Index","",new { @class = "btn btn-primary"})
+        </div>
+    }
+</div>

@@ -1,0 +1,29 @@
+﻿@model SistemaBasico001.Models.materias
+@{
+    ViewBag.Title = "Detalhes Materias";
+}
+
+<div class="jumbotron">
+    <center>
+        <h1>
+            @Html.DisplayFor(Model => Model.Nome)
+        </h1>
+    </center>
+</div>
+<div class="container">
+    <div class="row">
+        <h2>
+            Descrição
+        </h2>
+        <br />
+        <p class="text-justify navbar-text">
+            @Html.DisplayFor(Model => Model.Descricao)
+        </p>
+        <br />
+    </div>
+    <br />
+    <div class="row">
+        @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-primary " })
+    </div>
+</div>
+

@@ -1,0 +1,40 @@
+﻿@model SistemaBasico001.Models.Alunos_Materias
+
+@{
+    ViewBag.Title = "Excluir Materia Alunos";
+}
+
+<h2>Excluir Turma</h2>
+
+<h3>Tem certeza de que deseja excluir?</h3>
+<div>
+    <h4>Alunos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.alunos.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.alunos.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.materias.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.materias.Nome)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Excluir Materia" class="btn btn-danger" />
+            @Html.ActionLink("Voltar", "Details","alunos","",new { @class = "btn btn-primary"})
+        </div>
+    }
+</div>

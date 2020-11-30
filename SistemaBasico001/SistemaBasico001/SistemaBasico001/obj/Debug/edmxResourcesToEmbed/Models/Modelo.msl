@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SistemaBasico001ModelStoreContainer" CdmEntityContainer="SistemaBasico001Entities">
+    <EntitySetMapping Name="alunos">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.alunos">
+        <MappingFragment StoreEntitySet="alunos">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Nascimento" ColumnName="Nascimento" />
+          <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Alunos_Materias">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.Alunos_Materias">
+        <MappingFragment StoreEntitySet="Alunos_Materias">
+          <ScalarProperty Name="Materia" ColumnName="Materia" />
+          <ScalarProperty Name="Aluno" ColumnName="Aluno" />
+          <ScalarProperty Name="IDAlunoMateria" ColumnName="IDAlunoMateria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Alunos_Professores">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.Alunos_Professores">
+        <MappingFragment StoreEntitySet="Alunos_Professores">
+          <ScalarProperty Name="IDProfessor" ColumnName="IDProfessor" />
+          <ScalarProperty Name="IDAluno" ColumnName="IDAluno" />
+          <ScalarProperty Name="IDFKAlunosProfessores" ColumnName="IDFKAlunosProfessores" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Alunos_Turmas">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.Alunos_Turmas">
+        <MappingFragment StoreEntitySet="Alunos_Turmas">
+          <ScalarProperty Name="IDTurma" ColumnName="IDTurma" />
+          <ScalarProperty Name="IDAlunos" ColumnName="IDAlunos" />
+          <ScalarProperty Name="IDAlunoTurma" ColumnName="IDAlunoTurma" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Materia_Turmas">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.Materia_Turmas">
+        <MappingFragment StoreEntitySet="Materia_Turmas">
+          <ScalarProperty Name="idMateria" ColumnName="idMateria" />
+          <ScalarProperty Name="idTurma" ColumnName="idTurma" />
+          <ScalarProperty Name="idMateriaTurma" ColumnName="idMateriaTurma" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="materias">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.materias">
+        <MappingFragment StoreEntitySet="materias">
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Materias_Professores">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.Materias_Professores">
+        <MappingFragment StoreEntitySet="Materias_Professores">
+          <ScalarProperty Name="IDProfessor" ColumnName="IDProfessor" />
+          <ScalarProperty Name="IDMateria" ColumnName="IDMateria" />
+          <ScalarProperty Name="IDMateriaProfessor" ColumnName="IDMateriaProfessor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="nota">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.nota">
+        <MappingFragment StoreEntitySet="nota">
+          <ScalarProperty Name="IDMateria" ColumnName="IDMateria" />
+          <ScalarProperty Name="IDTurma" ColumnName="IDTurma" />
+          <ScalarProperty Name="IDAluno" ColumnName="IDAluno" />
+          <ScalarProperty Name="Atualizador" ColumnName="Atualizador" />
+          <ScalarProperty Name="Criador" ColumnName="Criador" />
+          <ScalarProperty Name="dataUpdate" ColumnName="dataUpdate" />
+          <ScalarProperty Name="dataCreate" ColumnName="dataCreate" />
+          <ScalarProperty Name="Nota1" ColumnName="Nota" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="professores">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.professores">
+        <MappingFragment StoreEntitySet="professores">
+          <ScalarProperty Name="Senha" ColumnName="Senha" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Nascimento" ColumnName="Nascimento" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Professores_Alunos">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.Professores_Alunos">
+        <MappingFragment StoreEntitySet="Professores_Alunos">
+          <ScalarProperty Name="IDTurma" ColumnName="IDTurma" />
+          <ScalarProperty Name="IDProfessor" ColumnName="IDProfessor" />
+          <ScalarProperty Name="IDProfessorTurma" ColumnName="IDProfessorTurma" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="turmas">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.turmas">
+        <MappingFragment StoreEntitySet="turmas">
+          <ScalarProperty Name="ano" ColumnName="ano" />
+          <ScalarProperty Name="Numero" ColumnName="Numero" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

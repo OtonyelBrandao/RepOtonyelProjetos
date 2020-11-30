@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Logar";
+}
+<form class="form-group" action="~/Login/Login" method="post">
+    <div class="container Center">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-3 col-sm-offset-4 col-sm-4 col-xs-offset-2 col-xs-5">
+                <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+                <input type="text" id="Usuario" class="form-control " placeholder="Nome ou Email" name="Usuario" required autofocus>
+                <input type="password" id="Senha" class="form-control" name="Senha" placeholder="Senha" required>
+                <div role="alert" class="@ViewBag.Error">@ViewBag.Message</div><br />
+                <button class="btn btn-lg btn-primary botao" type="submit">Logar</button>
+            </div>
+        </div>
+    </div>
+</form>
+

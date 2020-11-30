@@ -1,0 +1,87 @@
+﻿@model IEnumerable<SistemaBasico001.Models.Alunos_Turmas>
+
+@{
+    ViewBag.Title = "Notas";
+}
+
+<h2>Notas</h2>
+
+<form action="~/notas/Index" method="get">
+    <div class="container">
+        <div class="row">
+            <input type="number" placeholder="Digite o número de uma turma" name="turma" class="form-control col-md-3 " />
+            <input type="text" placeholder="Digite o nome de um aluno" name="nome" class="form-control col-md-3 col-md-offset-1 col-sm-offset-0" />
+            <button type="submit" class="btn btn-primary col-md-2 col-md-offset-1 col-sm-offset-0">Procurar <i class="glyphicon glyphicon-search"></i></button>
+        </div>
+    </div>
+    <br />
+</form>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.alunos.Matricula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.alunos.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.alunos.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.alunos.Nascimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.turmas.Numero)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.turmas.ano)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        string Nascimento = string.Format("{0:dd/MM/yyyy}", item.alunos.Nascimento);
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.alunos.Matricula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.alunos.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.alunos.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Nascimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.turmas.Numero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.turmas.ano)
+            </td>
+            <td>
+                <button class="btn btn-success details" data-id="@item.alunos.IDAluno" data-idTurma="@item.turmas.IDTurma"><i class="glyphicon glyphicon-file"></i></button>
+            </td>
+        </tr>
+    }
+
+</table>
+<div id="modal" class="modal fade" role="dialog" data-backdrop="static"/>
+@section scripts{
+
+    <script>
+        $(function () {
+            $(".details").click(function () {
+                var id = $(this).attr("data-id");
+                var idTurma = $(this).attr("data-idTurma");
+                $("#modal").load("/notas/Details/" + id + "?idTurma=" + idTurma, function () {
+                    $("#modal").modal();
+                })
+            });
+        });
+
+    </script>
+}
+

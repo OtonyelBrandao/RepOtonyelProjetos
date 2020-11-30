@@ -1,0 +1,52 @@
+﻿@using SistemaBasico001.Models
+@model SistemaBasico001.Models.alunos
+
+@{
+    SistemaBasico001Entities db = new SistemaBasico001Entities();
+    ViewBag.Title = "Details";
+    IQueryable<Alunos_Materias> AM = db.Alunos_Materias.Where(n => n.alunos.Matricula == Model.Matricula);
+    string Nascimento = string.Format("{0:dd/MM/yyyy}", Model.Nascimento);
+
+}
+<div class="row">
+    <div class="container">
+        <div class="modal-dialog col-lg-12 col-md=12">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@Model.Nome</h4>
+                </div>
+                <div class="modal-body">
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(model => model.Matricula)</dt>
+                        <dd>@Html.DisplayFor(model => model.Matricula)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Nascimento)</dt>
+                        <dd>@Html.DisplayFor(model => Nascimento)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+                        <dd>@Html.DisplayFor(model => model.Email)</dd>
+                    </dl>
+                    <div class="body-content">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>
+                                    Materias
+                                </th>
+                            </tr>
+                            @foreach (var item in AM)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.materias.Nome)
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</div>

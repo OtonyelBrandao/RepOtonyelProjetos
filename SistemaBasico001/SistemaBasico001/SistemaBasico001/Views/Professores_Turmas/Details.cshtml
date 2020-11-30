@@ -1,0 +1,133 @@
+﻿@using SistemaBasico001.Models;
+@model SistemaBasico001.Models.professores
+@{
+    ViewBag.Title = "Detalhes Professores";
+    SistemaBasico001Entities db = new SistemaBasico001Entities();
+    string professor = Convert.ToString(Model.Senha);
+    IQueryable<Materias_Professores> MP = db.Materias_Professores.Where(p => p.professores.Senha == professor);
+    IQueryable<Professores_Alunos> PT = db.Professores_Alunos.Where(p => p.professores.Senha == professor);
+    string Nascimento = string.Format("{0:dd/MM/yyyy}", Model.Nascimento);
+}
+
+<h2>Detalhes</h2>
+
+<div>
+    <h4>Professores</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => Model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Senha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Senha)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nascimento)
+        </dt>
+       
+        <dd>
+            @Html.DisplayFor(model => Nascimento)
+        </dd>
+    </dl>
+</div>
+
+<div class="form-group row">
+    <div class="col-md-6 table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        Turma
+                    </th>
+                    <th>
+                        Ano
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in PT)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.turmas.Numero)</td>
+                        <td>@Html.DisplayFor(modelItem => item.turmas.ano)</td>
+                        <td>
+                            @Html.ActionLink("Detalhes", "Details", "turmas", new { id = item.turmas.Numero }, new { @class = "btn btn-success" })
+                            @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+                            {
+                                @Html.ActionLink("Deletar", "Delete", "Professores_Turmas", new { id = item.IDProfessorTurma }, new { @class = "btn btn-danger" })
+                            }
+                        </td>
+                    </tr>
+                }
+                @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+                {
+
+                    @Html.ActionLink("Adicionar Turma", "Create", "Professores_Turmas", "", new { @class = "btn btn-primary" })
+
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3 table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Materias</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in MP)
+                {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.materias.Nome)
+                    </td>
+                    @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+                    {
+                        <td>@Html.ActionLink("Deletar", "Delete", "Materias_Professores", new { id = item.IDMateriaProfessor }, new { @class = "btn btn-danger" })</td>
+                    }
+                    <td>@Html.ActionLink("Detalhes", "Details", "materias", new { id = item.materias.IdMateria }, new { @class = "btn btn-success" })</td>
+                </tr>
+                }
+                @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+                {
+                    @Html.ActionLink("Adicionar Materia", "Create", "Materias_Professores", "", new { @class = "btn btn-primary" })
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.IDProfessorTurma }) |*@
+    @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2 )
+    {
+        @Html.ActionLink("Alunos", "Index", "alunos", "", new { @class = "btn btn-primary" })
+    }
+    else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+    {
+        @Html.ActionLink("Voltar", "Index", "Professores", "", new { @class = "btn btn-primary" })
+    }
+</p>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="../../assets/js/vendor/popper.min.js"></script>
+<script src="../../dist/js/bootstrap.min.js"></script>

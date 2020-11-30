@@ -1,0 +1,69 @@
+﻿@model IEnumerable<SistemaBasico001.Models.alunos>
+
+@{
+    ViewBag.Title = "Alunos";
+
+}
+
+<h2>Alunos</h2>
+
+<p>
+    @Html.ActionLink("Cadastrar Novo Aluno", "Create", "", new { @class = "btn btn-primary" })
+</p>
+<form method="post">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Matricula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nascimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            string Nascimento = string.Format("{0:dd/MM/yyyy}", item.Nascimento);
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Matricula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Nascimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+
+            <td>
+                @if (true)
+                {
+                    <button type="submit" class="btn btn-primary" formaction="~/alunos/Edit" value="@item.IDAluno" name="Matricula">Editar</button>
+                }
+            </td>
+            <td>
+                <button type="submit" class="btn btn-success" formaction="~/alunos/Details" value="@item.IDAluno" name="Matricula">Detalhes</button>
+            </td>
+            <td>
+                @if (true)
+                {
+                    <button type="submit" class="btn btn-danger" formaction="~/alunos/Delete" value="@item.IDAluno" name="Matricula">Deletar</button>
+                }
+            </td>
+        </tr>
+        }
+
+    </table>
+</form>

@@ -1,0 +1,34 @@
+﻿@model SistemaBasico001.Models.Alunos_Turmas
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Alunos_Turmas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.alunos.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.alunos.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.turmas.ano)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.turmas.ano)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDAlunoTurma }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
