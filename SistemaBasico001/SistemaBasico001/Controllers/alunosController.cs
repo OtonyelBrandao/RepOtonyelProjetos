@@ -258,22 +258,26 @@ namespace SistemaBasico001.Controllers
         // POST: alunos/Delete/5
         [HttpPost, ActionName("Deletar")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int Matricula)
+        public ActionResult DeleteConfirmed(int? Matricula)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 alunos alunos = db.alunos.Find(Matricula);
-                if(alunos.Ativo <= 0)
+                if(alunos.Ativo == -1)
                 {
                     alunos.Ativo = 1;
                 }
-                else
+                else if (alunos.Ativo == 1)
                 {
                     alunos.Ativo = -1;
                 }
+                else
+                {
+                    alunos.Ativo = 1;
+                }
                 db.Entry(alunos).State = EntityState.Modified;
                 db.SaveChanges();
-                return View();
+                return RedirectToAction("Index");
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {

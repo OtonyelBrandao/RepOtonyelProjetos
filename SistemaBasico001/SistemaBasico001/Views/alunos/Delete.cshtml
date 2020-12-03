@@ -46,11 +46,11 @@
             <button type="submit" value="@Model.IDAluno" name="Matricula" class="btn btn-danger">
                 @if (Model.Ativo == 1)
                 {
-                    @Html.DisplayText("Desativar")
+                <span>Desativar</span>
                 }
-                else
+                else if(Model.Ativo == null || Model.Ativo <= 0)
                 {
-                    @Html.DisplayText("Ativar")
+                <span>Ativar</span>
                 }
             </button>
             @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-primary" })

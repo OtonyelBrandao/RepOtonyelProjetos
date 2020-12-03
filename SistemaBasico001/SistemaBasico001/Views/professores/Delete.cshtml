@@ -43,14 +43,14 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <button type="submit" value="@Model.IDProfessor" name="Senha" class="btn btn-danger">
-                @if (Model.Ativo <= 0)
+            <button type="submit" value="@Model.IDProfessor" name="id" class="btn btn-danger">
+                @if (Model.Ativo <= 0 || Model.Ativo == null)
                 {
-                    @Html.DisplayText("Ativar")
+                <span>Ativar</span>
                 }
                 else
                 {
-                    @Html.DisplayText("Desativar")
+                <span>Desativar</span> 
                 }
             </button>
             @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-primary" })

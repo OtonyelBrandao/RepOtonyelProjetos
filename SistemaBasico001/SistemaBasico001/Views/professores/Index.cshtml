@@ -46,7 +46,7 @@
                     <button type="submit" class="btn btn-success" formaction="~/Professores_Turmas/Details" value="@item.IDProfessor" name="id">Detalhes</button>
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-danger" formaction="~/professores/Delete" value="@item.IDProfessor" name="id">Deletar</button>
+                    <button type="submit" class="btn btn-danger" formaction="~/professores/Delete" value="@item.IDProfessor" name="id">@if (item.Ativo == 1) {<span>Ativado</span> } else { <span>Desativado</span>}</button>
                 </td>
 
             </tr>

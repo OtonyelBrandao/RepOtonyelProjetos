@@ -59,7 +59,10 @@
             <td>
                 @if (true)
                 {
-                    <button type="submit" class="btn btn-danger" formaction="~/alunos/Delete" value="@item.IDAluno" name="Matricula">Deletar</button>
+                <button type="submit" class="btn btn-danger" formaction="~/alunos/Delete" value="@item.IDAluno" name="Matricula">@if (item.Ativo == 1)
+                {<span>Ativado</span> }
+                else
+                {<span>Desativado</span>}</button>
                 }
             </td>
         </tr>

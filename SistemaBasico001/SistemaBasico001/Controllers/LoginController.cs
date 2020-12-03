@@ -44,7 +44,7 @@ namespace SistemaBasico001.Controllers
                 Session["NivelDeAcesso"] = usuario.NA;
                 Session["Nome"] = usuario.Nome;
                 Session["id"] = usuario.id;
-                alunos aluno = db.alunos.Find(Convert.ToInt32(Senha));
+                alunos aluno = db.alunos.Find(Convert.ToInt32(usuario.id));
                 return RedirectToAction("Details", "alunos" ,aluno);
             }
             else if (Autenticar == 3)

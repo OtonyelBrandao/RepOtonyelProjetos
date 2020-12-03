@@ -163,15 +163,15 @@ namespace SistemaBasico001.Controllers
 
         // GET: professores/Delete/5
         [HttpPost]
-        public ActionResult Delete(string Senha)
+        public ActionResult Delete(int? id)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                if (Senha == null)
+                if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                professores professores = db.professores.Find(Convert.ToInt32(Senha));
+                professores professores = db.professores.Find(id);
                 if (professores == null)
                 {
                     return HttpNotFound();
@@ -196,18 +196,22 @@ namespace SistemaBasico001.Controllers
         // POST: professores/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string Senha)
+        public ActionResult DeleteConfirmed(int? id)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                professores professores = db.professores.Find(Convert.ToInt32(Senha));
-                if (professores.Ativo <= 0)
+                professores professores = db.professores.Find(id);
+                if (professores.Ativo == null)
                 {
                     professores.Ativo = 1;
                 }
-                else
+                else if(professores.Ativo == 1)
                 {
                     professores.Ativo = -1;
+                }
+                else
+                {
+                    professores.Ativo = 1;
                 }
                 db.Entry(professores).State = EntityState.Modified;
                 db.SaveChanges();
