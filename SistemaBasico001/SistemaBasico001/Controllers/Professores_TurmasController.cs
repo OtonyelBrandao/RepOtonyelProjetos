@@ -39,12 +39,12 @@ namespace SistemaBasico001.Controllers
 
         // GET: Professores_Turmas/Details/5
         [HttpPost]
-        public ActionResult Details(string Senha)
+        public ActionResult Details(int? id)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
             { 
-                professores professor = db.professores.Find(Senha);
-                if (Senha == null)
+                professores professor = db.professores.Find(id);
+                if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }

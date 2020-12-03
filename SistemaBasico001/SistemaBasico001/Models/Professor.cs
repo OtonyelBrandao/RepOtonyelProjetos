@@ -12,20 +12,17 @@ namespace SistemaBasico001.Models
         {
             Professor professor_ = new Professor();
             SistemaBasico001Entities db = new SistemaBasico001Entities();
-            professores professor = db.professores.Find(Senha);
-            if (professor != null)
+            var pfs = db.professores.ToList();
+            foreach (var pf in pfs)
             {
-                if (Nome == professor.Nome && Senha == professor.Senha || Nome == professor.Email && Senha == professor.Senha)
+                if (Nome.Trim().ToUpper() == pf.Nome.Trim().ToUpper() && Senha.Trim().ToUpper() == pf.Senha.Trim().ToUpper() ||
+                    Nome.Trim().ToUpper() == pf.Email.Trim().ToUpper() && Senha.Trim().ToUpper() == pf.Senha.Trim().ToUpper())
                 {
                     professor_.Nome = Nome;
                     professor_.Senha = Senha;
                     professor_.NA = 2;
-                    professor_.id = professor.IDProfessor;
+                    professor_.id = pf.IDProfessor;
                     return professor_;
-                }
-                else
-                {
-                    return null;
                 }
             }
             return null;

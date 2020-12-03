@@ -201,7 +201,15 @@ namespace SistemaBasico001.Controllers
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 professores professores = db.professores.Find(Convert.ToInt32(Senha));
-                db.professores.Remove(professores);
+                if (professores.Ativo <= 0)
+                {
+                    professores.Ativo = 1;
+                }
+                else
+                {
+                    professores.Ativo = -1;
+                }
+                db.Entry(professores).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
