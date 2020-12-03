@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Notas";
+    var grid = new WebGrid(Model, canPage: false);
 }
 
 <h2>Notas</h2>
@@ -16,6 +17,16 @@
     </div>
     <br />
 </form>
+<!--funciona-->
+@*@grid.GetHtml(tableStyle: "table table-bordered table-responsive table hover", columns: grid.Columns(
+    grid.Column("alunos.Matricula", "Matricula"),
+    grid.Column("alunos.Nome","Nome"),
+    grid.Column("alunos.Email","Email"),
+    grid.Column("alunos.Nascimento","Nascimento"),
+    grid.Column("turmas.Numero","Numero Da Turma"),
+    grid.Column("turmas.ano","ano Da Turma")
+    ))*@
+
 <table class="table">
     <tr>
         <th>
@@ -68,7 +79,7 @@
     }
 
 </table>
-<div id="modal" class="modal fade" role="dialog" data-backdrop="static"/>
+<div id="modal" class="modal fade" role="dialog" data-backdrop="static" />
 @section scripts{
 
     <script>
