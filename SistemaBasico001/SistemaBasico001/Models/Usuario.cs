@@ -40,6 +40,7 @@ namespace SistemaBasico001.Models
                 NA = professor.NA;
                 Ativo = professor.Ativo;
                 Nome = professor.Nome;
+                id = professor.id;
                 this.Senha = professor.Senha;
                 return 3;
             }
