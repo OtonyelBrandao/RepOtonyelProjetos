@@ -263,9 +263,17 @@ namespace SistemaBasico001.Controllers
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 alunos alunos = db.alunos.Find(Matricula);
-                db.alunos.Remove(alunos);
+                if(alunos.Ativo <= 0)
+                {
+                    alunos.Ativo = 1;
+                }
+                else
+                {
+                    alunos.Ativo = -1;
+                }
+                db.Entry(alunos).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View();
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {

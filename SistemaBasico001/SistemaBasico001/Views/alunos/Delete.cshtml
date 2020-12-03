@@ -38,12 +38,22 @@
 
     </dl>
 
-    @using (Html.BeginForm("Deletar","alunos",FormMethod.Post)) {
+    @using (Html.BeginForm("Deletar", "alunos", FormMethod.Post))
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <button type="submit" value="@Model.IDAluno" name="Matricula" class="btn btn-danger">Deletar</button>
-            @Html.ActionLink("Voltar", "Index","",new { @class = "btn btn-primary"})
+            <button type="submit" value="@Model.IDAluno" name="Matricula" class="btn btn-danger">
+                @if (Model.Ativo == 1)
+                {
+                    @Html.DisplayText("Desativar")
+                }
+                else
+                {
+                    @Html.DisplayText("Ativar")
+                }
+            </button>
+            @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-primary" })
         </div>
     }
 </div>

@@ -40,13 +40,13 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-primary" formaction="~/professores/Edit" value="@item.IDProfessor" name="Senha">Editar</button>
+                    <button type="submit" class="btn btn-primary" formaction="~/professores/Edit" value="@item.IDProfessor" name="id">Editar</button>
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-success" formaction="~/Professores_Turmas/Details" value="@item.IDProfessor" name="Senha">Detalhes</button>
+                    <button type="submit" class="btn btn-success" formaction="~/Professores_Turmas/Details" value="@item.IDProfessor" name="id">Detalhes</button>
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-danger" formaction="~/professores/Delete" value="@item.IDProfessor" name="Senha">Deletar</button>
+                    <button type="submit" class="btn btn-danger" formaction="~/professores/Delete" value="@item.IDProfessor" name="id">Deletar</button>
                 </td>
 
             </tr>

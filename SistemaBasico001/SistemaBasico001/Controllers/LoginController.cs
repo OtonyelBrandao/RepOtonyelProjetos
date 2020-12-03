@@ -43,7 +43,7 @@ namespace SistemaBasico001.Controllers
             {
                 Session["NivelDeAcesso"] = usuario.NA;
                 Session["Nome"] = usuario.Nome;
-                Session["id"] = usuario.Senha;
+                Session["id"] = usuario.id;
                 alunos aluno = db.alunos.Find(Convert.ToInt32(Senha));
                 return RedirectToAction("Details", "alunos" ,aluno);
             }
@@ -51,8 +51,8 @@ namespace SistemaBasico001.Controllers
             {
                 Session["NivelDeAcesso"] = usuario.NA;
                 Session["Nome"] = usuario.Nome;
-                Session["id"] = usuario.Senha;
-                professores professor = db.professores.Find(Senha);
+                Session["id"] = usuario.id;
+                professores professor = db.professores.Find(usuario.id);
                 return RedirectToAction("Details", "Professores_Turmas",professor);
             }
             else
