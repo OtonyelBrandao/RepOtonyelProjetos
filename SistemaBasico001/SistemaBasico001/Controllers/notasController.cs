@@ -1,12 +1,11 @@
-﻿using System;
+﻿using SistemaBasico001.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using SistemaBasico001.Models;
 
 namespace SistemaBasico001.Controllers
 {
@@ -15,9 +14,9 @@ namespace SistemaBasico001.Controllers
         private SistemaBasico001Entities db = new SistemaBasico001Entities();
 
         // GET: notas
-        public ActionResult Index(int? turma , string nome)
+        public ActionResult Index(int? turma, string nome)
         {
-            var alunos = db.Alunos_Turmas.ToList();
+            List<Alunos_Turmas> alunos = db.Alunos_Turmas.ToList();
             if (!(turma == null || nome == null))
             {
                 return View(alunos.Where(a => a.IDTurma == turma || a.alunos.Nome == nome));
@@ -29,14 +28,105 @@ namespace SistemaBasico001.Controllers
         }
 
         // GET: notas/Details/5
-        public ActionResult Details(int? id,int idTurma)
-        {
+        public ActionResult Details(int? id, int idTurma)
+        {//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            //Seleção de Materias  Inicio >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            IQueryable<materias> MateriasENotas = from an in db.nota
+                                                  from m in db.materias
+                                                  from tm in db.Materia_Turmas
+                                                  from AM in db.Alunos_Materias
+                                                  where AM.IDAluno == id
+                                                  && tm.idTurma == idTurma
+                                                  && tm.idMateria == an.IDMateria
+                                                  && an.IDTurma == tm.idTurma
+                                                  && an.IDAluno == AM.IDAluno
+                                                  && AM.IDMateria == m.IdMateria
+                                                  select (m);
+            //Seleção de Materias  Fim >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            //Seleção de Materias  Inicio >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            IQueryable<nota> nota1 = from nt in db.nota
+                                     from al in db.alunos
+                                     from tm in db.turmas
+                                     from mt in db.materias
+                                     where al.IDAluno == id
+                                     && tm.IDTurma == idTurma
+                                     && mt.IdMateria == nt.IDMateria
+                                     && tm.IDTurma == nt.IDTurma
+                                     && al.IDAluno == nt.IDAluno
+                                     select (nt);
+            //Seleção de Materias  Fim >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            //Varrendo Notas Nas Materias Inicio >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            int contador = 0;
+            foreach (materias item in MateriasENotas)
+            {
+                contador += 1;
+            }
+            string[,] notas = new string[contador, 7];
             ViewBag.IDTurma = idTurma;
+            int contador2 = 0;
+
+            foreach (materias Materia in MateriasENotas)
+            {
+                int contador3 = 0;
+
+                foreach (nota Nota in nota1)
+                {
+                    if (contador3 == 0)
+                    {
+                        notas[contador2, contador3] = Materia.Nome;
+                    }
+                    else if (contador == 6)
+                    {
+                        notas[contador2, contador3] = Convert.ToString(
+                            Convert.ToInt32(notas[contador2, 1]) +
+                            Convert.ToInt32(notas[contador2, 2]) +
+                            Convert.ToInt32(notas[contador2, 3]) +
+                            Convert.ToInt32(notas[contador2, 4]) / 4);
+                    }
+                    else
+                    {
+                        if (Nota.IDMateria == Materia.IdMateria)
+                        {
+                            notas[contador2, contador3] = Convert.ToString(Nota.Nota1);
+                        }
+                        else
+                        {
+                            notas[contador2, contador3] = " ";
+                        }
+
+                    }
+                    contador3 += 1;
+                }
+                contador2 += 1;
+            }
+            ViewData["notas"] = notas;
+            Notas Nts = new Notas();
+            contador = -1;
+            ViewBag.TabelaDeNotas = new List<Notas>();
+            foreach (var item in MateriasENotas)
+            {
+                contador += 1;
+                Nts.Materia = notas[contador, 0];
+                Nts.Nota1 = notas[contador, 1];
+                Nts.Nota2 = notas[contador, 2];
+                Nts.Nota3 = notas[contador, 3];
+                Nts.Nota4 = notas[contador, 4];
+                Nts.Recu = notas[contador, 5];
+                Nts.Media = notas[contador, 6];
+                ViewBag.TabelaDeNotas.Add(Nts);
+            }
+            //Varrendo Notas Nas Materias Fim >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            // materia n1 n2 n3 n4 recu media
+            // string  real real real real real real
+            //                           n1+n2+n3+n4/4
+            //                           n1+n2+n3+recu/4
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var  aluno = db.alunos.Find(id);
+            alunos aluno = db.alunos.Find(id);
             if (aluno == null)
             {
                 return HttpNotFound();

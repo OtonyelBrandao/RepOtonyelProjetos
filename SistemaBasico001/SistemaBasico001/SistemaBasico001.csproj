@@ -183,6 +183,7 @@
     <Compile Include="Models\nota.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Notas.cs" />
     <Compile Include="Models\Professor.cs" />
     <Compile Include="Models\professores.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
