@@ -31,20 +31,15 @@ namespace SistemaBasico001.Controllers
         public ActionResult Details(int? id, int idTurma)
         {//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
             //Seleção de Materias  Inicio >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            IQueryable<materias> MateriasENotas = from an in db.nota
-                                                  from m in db.materias
-                                                  from tm in db.Materia_Turmas
-                                                  from AM in db.Alunos_Materias
-                                                  where AM.IDAluno == id
-                                                  && tm.idTurma == idTurma
-                                                  && tm.idMateria == an.IDMateria
-                                                  && an.IDTurma == tm.idTurma
-                                                  && an.IDAluno == AM.IDAluno
-                                                  && AM.IDMateria == m.IdMateria
-                                                  select (m);
+            var Alunos = db.Alunos_Materias.Where(AM => AM.IDAluno == id);
+            var Turmas = db.Materia_Turmas.Where(MT => MT.idTurma == idTurma);
+            var Materias = from T in Turmas
+                           from A in Alunos
+                           where T.idMateria == A.IDMateria
+                           select (A);
             //Seleção de Materias  Fim >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //Seleção de Materias  Inicio >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            IQueryable<nota> nota1 = from nt in db.nota
+            IQueryable <nota> nota1 = from nt in db.nota
                                      from al in db.alunos
                                      from tm in db.turmas
                                      from mt in db.materias
@@ -57,27 +52,23 @@ namespace SistemaBasico001.Controllers
             //Seleção de Materias  Fim >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //Varrendo Notas Nas Materias Inicio >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             int contador = 0;
-            foreach (materias item in MateriasENotas)
+            foreach (var item in Materias)
             {
                 contador += 1;
             }
             string[,] notas = new string[contador, 7];
             ViewBag.IDTurma = idTurma;
             int contador2 = 0;
-
-            foreach (materias Materia in MateriasENotas)
+            int cont3 = 1;
+            foreach (var Materia in Materias)
             {
-                int contador3 = 0;
-
-                foreach (nota Nota in nota1)
+                notas[contador2, 0] = Materia.materias.Nome;
+                var Notas = nota1.Where(n => n.IDMateria == Materia.IDMateria);
+                foreach (nota Nota in Notas)
                 {
-                    if (contador3 == 0)
+                    if (cont3 == 6)
                     {
-                        notas[contador2, contador3] = Materia.Nome;
-                    }
-                    else if (contador == 6)
-                    {
-                        notas[contador2, contador3] = Convert.ToString(
+                        notas[contador2, cont3] = Convert.ToString(
                             Convert.ToInt32(notas[contador2, 1]) +
                             Convert.ToInt32(notas[contador2, 2]) +
                             Convert.ToInt32(notas[contador2, 3]) +
@@ -85,35 +76,45 @@ namespace SistemaBasico001.Controllers
                     }
                     else
                     {
-                        if (Nota.IDMateria == Materia.IdMateria)
+                        if (Nota.IDMateria == Materia.materias.IdMateria)
                         {
-                            notas[contador2, contador3] = Convert.ToString(Nota.Nota1);
+                            notas[contador2, cont3] = Convert.ToString(Nota.Nota1);
                         }
                         else
                         {
-                            notas[contador2, contador3] = " ";
+                            notas[contador2, cont3] = " ";
                         }
 
                     }
-                    contador3 += 1;
+                    cont3++;
                 }
+                cont3 = 1;
                 contador2 += 1;
             }
+            
             ViewData["notas"] = notas;
             Notas Nts = new Notas();
             contador = -1;
             ViewBag.TabelaDeNotas = new List<Notas>();
-            foreach (var item in MateriasENotas)
+            foreach (var item in Materias)
             {
                 contador += 1;
-                Nts.Materia = notas[contador, 0];
-                Nts.Nota1 = notas[contador, 1];
-                Nts.Nota2 = notas[contador, 2];
-                Nts.Nota3 = notas[contador, 3];
-                Nts.Nota4 = notas[contador, 4];
-                Nts.Recu = notas[contador, 5];
-                Nts.Media = notas[contador, 6];
-                ViewBag.TabelaDeNotas.Add(Nts);
+                //Nts.Materia = notas[contador, 0];
+                //Nts.Nota1 = notas[contador, 1];
+                //Nts.Nota2 = notas[contador, 2];
+                //Nts.Nota3 = notas[contador, 3];
+                //Nts.Nota4 = notas[contador, 4];
+                //Nts.Recu = notas[contador, 5];
+                //Nts.Media = notas[contador, 6];
+                ViewBag.TabelaDeNotas.Add( new Notas(
+                    notas[contador, 0], 
+                    notas[contador, 1],
+                    notas[contador, 2],
+                    notas[contador, 3],
+                    notas[contador, 4],
+                    notas[contador, 5],
+                    notas[contador, 6]
+                    ));
             }
             //Varrendo Notas Nas Materias Fim >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
