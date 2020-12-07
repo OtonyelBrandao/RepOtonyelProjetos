@@ -5,7 +5,15 @@
 }
 
 <h2>Turmas</h2>
-
+<form action="~/turmas/Index" method="get">
+    <div class="container">
+        <div class="row">
+            <input type="number" placeholder="Digite o número de uma turma" name="turma" class="form-control col-md-3 " />
+            <button type="submit" class="btn btn-primary col-md-2 col-md-offset-1 col-sm-offset-0">Procurar <i class="glyphicon glyphicon-search"></i></button>
+        </div>
+    </div>
+    <br />
+</form>
 <p>
     @Html.ActionLink("Cadastrar Nova Turma", "Create", "", new { @class = "btn btn-primary" })
 </p>
@@ -32,13 +40,13 @@
                 @Html.DisplayFor(modelItem => item.ano)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Numero }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Editar", "Edit", new { id = item.IDTurma }, new { @class = "btn btn-primary" })
             </td>
             <td>
-                @Html.ActionLink("Detalhes", "Details", new { id = item.Numero }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Detalhes", "Details", new { id = item.IDTurma }, new { @class = "btn btn-success" })
             </td>
             <td>
-                @Html.ActionLink("Deletar", "Delete", new { id = item.Numero }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Deletar", "Delete", new { id = item.IDTurma }, new { @class = "btn btn-danger" })
             </td>
         </tr>
     }

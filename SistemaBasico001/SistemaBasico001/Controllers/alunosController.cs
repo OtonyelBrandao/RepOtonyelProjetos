@@ -15,11 +15,19 @@ namespace SistemaBasico001.Controllers
         private SistemaBasico001Entities db = new SistemaBasico001Entities();
 
         // GET: alunos
-        public ActionResult Index()
+        public ActionResult Index(int? Matricula, string nome)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                return View(db.alunos.ToList());
+                List<alunos> alunos = db.alunos.ToList();
+                if (!(Matricula == null || nome == null))
+                {
+                    return View(alunos.Where(a => a.Matricula == Matricula || a.Nome == nome));
+                }
+                else
+                {
+                    return View(alunos);
+                }
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {
@@ -33,7 +41,6 @@ namespace SistemaBasico001.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-            
         }
 
         // GET: alunos/Details/5

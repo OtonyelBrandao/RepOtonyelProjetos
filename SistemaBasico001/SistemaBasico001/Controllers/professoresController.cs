@@ -15,11 +15,19 @@ namespace SistemaBasico001.Controllers
         private SistemaBasico001Entities db = new SistemaBasico001Entities();
 
         // GET: professores
-        public ActionResult Index()
+        public ActionResult Index(string Professor)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                return View(db.professores.ToList());
+                List<professores> professores = db.professores.ToList();
+                if (!(Professor == null))
+                {
+                    return View(professores.Where(p => p.Nome  == Professor));
+                }
+                else
+                {
+                    return View(professores);
+                }
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {

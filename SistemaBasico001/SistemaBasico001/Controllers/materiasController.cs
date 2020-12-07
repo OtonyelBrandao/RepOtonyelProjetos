@@ -15,11 +15,19 @@ namespace SistemaBasico001.Controllers
         private SistemaBasico001Entities db = new SistemaBasico001Entities();
 
         // GET: materias
-        public ActionResult Index()
+        public ActionResult Index(string Materia)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                return View(db.materias.ToList());
+                List<materias> materias = db.materias.ToList();
+                if (!(Materia == null))
+                {
+                    return View(materias.Where(m => m.Nome == Materia));
+                }
+                else
+                {
+                    return View(db.materias.ToList());
+                }
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {

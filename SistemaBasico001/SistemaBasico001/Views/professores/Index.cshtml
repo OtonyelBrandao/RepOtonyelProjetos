@@ -5,7 +5,15 @@
 }
 
 <h2>Professores</h2>
-
+<form action="~/professores/Index" method="get">
+    <div class="container">
+        <div class="row">
+            <input type="text" placeholder="Digite o Nome Do Professor" name="Professor" class="form-control col-md-3 " />
+            <button type="submit" class="btn btn-primary col-md-2 col-md-offset-1 col-sm-offset-0">Procurar <i class="glyphicon glyphicon-search"></i></button>
+        </div>
+    </div>
+    <br />
+</form>
 <p>
     @Html.ActionLink("Cadastrar Novo Professor", "Create", "", new { @class = "btn btn-primary" })
 </p>

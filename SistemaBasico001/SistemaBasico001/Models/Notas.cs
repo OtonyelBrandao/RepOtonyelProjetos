@@ -37,7 +37,15 @@ namespace SistemaBasico001.Models
                 }
                 cont++;
             }
-            this.Media = Convert.ToString((notas[0]+notas[1]+notas[2]+notas[3])/4);
+            if (notas[4] > 0)
+            {
+                this.Media = Convert.ToString((notas[0] + notas[1] + notas[2] + notas[3] + notas[4]) / 5);
+            }
+            else
+            {
+                this.Media = Convert.ToString((notas[0] + notas[1] + notas[2] + notas[3]) / 4);
+            }
+            
         }
     }
 }

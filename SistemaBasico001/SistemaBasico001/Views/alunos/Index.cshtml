@@ -6,7 +6,16 @@
 }
 
 <h2>Alunos</h2>
-
+<form action="~/alunos/Index" method="get">
+    <div class="container">
+        <div class="row">
+            <input type="number" placeholder="Digite a Matricula de um aluno" name="Matricula" class="form-control col-md-3 " />
+            <input type="text" placeholder="Digite o nome de um aluno" name="Nome" class="form-control col-md-3 col-md-offset-1 col-sm-offset-0" />
+            <button type="submit" class="btn btn-primary col-md-2 col-md-offset-1 col-sm-offset-0">Procurar <i class="glyphicon glyphicon-search"></i></button>
+        </div>
+    </div>
+    <br />
+</form>
 <p>
     @Html.ActionLink("Cadastrar Novo Aluno", "Create", "", new { @class = "btn btn-primary" })
 </p>

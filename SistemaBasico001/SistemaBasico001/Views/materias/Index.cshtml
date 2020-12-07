@@ -5,7 +5,15 @@
 }
 
 <h2>Materias</h2>
-
+<form action="~/materias/Index" method="get">
+    <div class="container">
+        <div class="row">
+            <input type="text" placeholder="Digite o Nome Da Materia" name="Materia" class="form-control col-md-3 " />
+            <button type="submit" class="btn btn-primary col-md-2 col-md-offset-1 col-sm-offset-0">Procurar <i class="glyphicon glyphicon-search"></i></button>
+        </div>
+    </div>
+    <br />
+</form>
 <p>
     @Html.ActionLink("Adicionar Nova Materia", "Create", "", new { @class = "btn btn-primary" })
 </p>
