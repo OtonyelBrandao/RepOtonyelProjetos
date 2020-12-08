@@ -39,7 +39,7 @@ namespace SistemaBasico001.Controllers
                            select (A);
             //Seleção de Materias  Fim >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //Seleção de Materias  Inicio >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            IQueryable <nota> nota1 = from nt in db.nota
+            IQueryable<nota> nota1 = from nt in db.nota
                                      from al in db.alunos
                                      from tm in db.turmas
                                      from mt in db.materias
@@ -91,7 +91,7 @@ namespace SistemaBasico001.Controllers
                 cont3 = 1;
                 contador2 += 1;
             }
-            
+
             ViewData["notas"] = notas;
             Notas Nts = new Notas();
             contador = -1;
@@ -106,8 +106,8 @@ namespace SistemaBasico001.Controllers
                 //Nts.Nota4 = notas[contador, 4];
                 //Nts.Recu = notas[contador, 5];
                 //Nts.Media = notas[contador, 6];
-                ViewBag.TabelaDeNotas.Add( new Notas(
-                    notas[contador, 0], 
+                ViewBag.TabelaDeNotas.Add(new Notas(
+                    notas[contador, 0],
                     notas[contador, 1],
                     notas[contador, 2],
                     notas[contador, 3],
@@ -165,21 +165,29 @@ namespace SistemaBasico001.Controllers
         }
 
         // GET: notas/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? IDAluno, int? IDTurma)
         {
-            if (id == null)
+            if (IDAluno == null || IDTurma == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            nota nota = db.nota.Find(id);
-            if (nota == null)
+            IQueryable<nota> notas = db.nota.Where(n => n.IDTurma == IDTurma && n.IDAluno == IDAluno);
+            var Materias = from MT in db.Materia_Turmas
+                           from AM in db.Alunos_Materias
+                           where MT.idTurma == IDTurma &&
+                           AM.IDAluno == IDAluno &&
+                           MT.idMateria == AM.IDMateria
+                           select (AM);
+
+            if (notas == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IDAluno = new SelectList(db.alunos, "Matricula", "Nome", nota.IDAluno);
-            ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome", nota.IDMateria);
-            ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "ano", nota.IDTurma);
-            return View(nota);
+
+            ViewBag.IDAluno = new SelectList(db.alunos, "Matricula", "Nome", IDAluno);
+            ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome");
+            ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "ano", IDTurma);
+            return View(notas);
         }
 
         // POST: notas/Edit/5

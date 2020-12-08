@@ -47,8 +47,8 @@
                 </dl>
                 <br />
                 @Html.ActionLink("Adicionar nota", "Create", "", new { @class = "btn btn-primary" })
-                @Html.ActionLink("Excluir Nota", "Delete", "", new { @class = "btn btn-danger" })
-                @Html.ActionLink("Atualizar Nota", "Edit", "", new { @class = "btn btn-primary" })
+                @*@Html.ActionLink("Excluir Nota", "Delete", "", new { @class = "btn btn-danger" })*@
+                @Html.ActionLink("Atualizar Nota", "Edit",new { IDAluno = Model.IDAluno , IDTurma = nt.IDTurma }, new { @class = "btn btn-primary" })
                 <table class="table table-bordered">
                     <tr>
                         <th class="Center">
