@@ -47,6 +47,8 @@
                 </dl>
                 <br />
                 @Html.ActionLink("Adicionar nota", "Create", "", new { @class = "btn btn-primary" })
+                @Html.ActionLink("Excluir Nota", "Delete", "", new { @class = "btn btn-danger" })
+                @Html.ActionLink("Atualizar Nota", "Edit", "", new { @class = "btn btn-primary" })
                 <table class="table table-bordered">
                     <tr>
                         <th class="Center">
@@ -60,22 +62,22 @@
                         <th>Nota Total</th>
                     </tr>
                     @*@foreach (var item in materiasDoAluno)
-                        {
-                            //double[] Total = new double[5] ;
-                            //double total;
-                        <tr>
-                            @item.materias.Materia_Turmas.Where(mt => mt.idTurma == nt.IDTurma)
-                            <td class="Center">@item.materias.Nome</td>
+            {
+                //double[] Total = new double[5] ;
+                //double total;
+            <tr>
+                @item.materias.Materia_Turmas.Where(mt => mt.idTurma == nt.IDTurma)
+                <td class="Center">@item.materias.Nome</td>
 
-                            @foreach (var item2 in notasDoAluno)
-                            {
-                                if (item.materias.IdMateria == item2.IDMateria && Model.IDAluno == item2.IDAluno)
-                                {
-                                    <td>@item2.Nota1</td>
-                                }
-                            }
-                        </tr>
-                        }*@
+                @foreach (var item2 in notasDoAluno)
+                {
+                    if (item.materias.IdMateria == item2.IDMateria && Model.IDAluno == item2.IDAluno)
+                    {
+                        <td>@item2.Nota1</td>
+                    }
+                }
+            </tr>
+            }*@
                     @foreach (var item in nota)
                     {
                         <tr>
@@ -92,6 +94,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

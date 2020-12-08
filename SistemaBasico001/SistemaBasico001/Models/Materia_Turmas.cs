@@ -19,6 +19,5 @@ namespace SistemaBasico001.Models
         public int idMateria { get; set; }
     
         public virtual materias materias { get; set; }
-        public virtual turmas turmas { get; set; }
     }
 }

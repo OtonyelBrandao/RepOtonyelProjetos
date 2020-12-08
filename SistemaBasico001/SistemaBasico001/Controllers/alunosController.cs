@@ -17,12 +17,13 @@ namespace SistemaBasico001.Controllers
         // GET: alunos
         public ActionResult Index(int? Matricula, string nome)
         {
+            ViewBag.ColunaInativa = "bg-danger";
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 List<alunos> alunos = db.alunos.ToList();
                 if (!(Matricula == null || nome == null))
                 {
-                    return View(alunos.Where(a => a.Matricula == Matricula || a.Nome == nome));
+                    return View(alunos.Where(a => a.Matricula == Matricula || a.Nome.Contains(nome)));
                 }
                 else
                 {

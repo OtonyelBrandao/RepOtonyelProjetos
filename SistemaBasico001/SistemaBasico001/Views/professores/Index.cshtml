@@ -37,27 +37,68 @@
         @foreach (var item in Model)
         {
             string Nascimento = string.Format("{0:dd/MM/yyyy}", item.Nascimento);
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Nascimento)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    <button type="submit" class="btn btn-primary" formaction="~/professores/Edit" value="@item.IDProfessor" name="id">Editar</button>
-                </td>
-                <td>
-                    <button type="submit" class="btn btn-success" formaction="~/Professores_Turmas/Details" value="@item.IDProfessor" name="id">Detalhes</button>
-                </td>
-                <td>
-                    <button type="submit" class="btn btn-danger" formaction="~/professores/Delete" value="@item.IDProfessor" name="id">@if (item.Ativo == 1) {<span>Ativado</span> } else { <span>Desativado</span>}</button>
-                </td>
 
-            </tr>
+            if (item.Ativo < 0 || item.Ativo == null)
+            {
+                <tr class="@ViewBag.ColunaInativa">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Nascimento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary" formaction="~/professores/Edit" value="@item.IDProfessor" name="id">Editar</button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-success" formaction="~/Professores_Turmas/Details" value="@item.IDProfessor" name="id">Detalhes</button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-danger" formaction="~/professores/Delete" value="@item.IDProfessor" name="id">
+                            @if (item.Ativo == 1)
+                            {<span>Ativado</span> }
+                            else
+                            { <span>Desativado</span>}
+                        </button>
+                    </td>
+
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Nascimento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary" formaction="~/professores/Edit" value="@item.IDProfessor" name="id">Editar</button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-success" formaction="~/Professores_Turmas/Details" value="@item.IDProfessor" name="id">Detalhes</button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-danger" formaction="~/professores/Delete" value="@item.IDProfessor" name="id">
+                            @if (item.Ativo == 1)
+                            {<span>Ativado</span> }
+                            else
+                            { <span>Desativado</span>}
+                        </button>
+                    </td>
+
+                </tr>
+            }
+
+
+
         }
     </table>
 </form>

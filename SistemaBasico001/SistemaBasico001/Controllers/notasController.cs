@@ -158,9 +158,9 @@ namespace SistemaBasico001.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IDAluno = new SelectList(db.alunos, "Matricula", "Nome", nota.IDAluno);
+            ViewBag.IDAluno = new SelectList(db.alunos, "IDAluno", "Nome", nota.IDAluno);
             ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome", nota.IDMateria);
-            ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "ano", nota.IDTurma);
+            ViewBag.IDTurma = new SelectList(db.turmas, "IDTurma", "ano", nota.IDTurma);
             return View(nota);
         }
 

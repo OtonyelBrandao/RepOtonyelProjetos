@@ -19,10 +19,11 @@ namespace SistemaBasico001.Controllers
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
+                ViewBag.ColunaInativa = "bg-danger";
                 List<professores> professores = db.professores.ToList();
-                if (!(Professor == null))
+                if (!(Professor == null || Professor == ""))
                 {
-                    return View(professores.Where(p => p.Nome  == Professor));
+                    return View(professores.Where(p => p.Nome.Contains(Professor)));
                 }
                 else
                 {

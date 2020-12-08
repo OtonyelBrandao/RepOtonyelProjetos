@@ -20,7 +20,7 @@ namespace SistemaBasico001.Controllers
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 List<materias> materias = db.materias.ToList();
-                if (!(Materia == null))
+                if (!(Materia == null || Materia == ""))
                 {
                     return View(materias.Where(m => m.Nome == Materia));
                 }
