@@ -22,7 +22,7 @@ namespace SistemaBasico001.Controllers
                 List<materias> materias = db.materias.ToList();
                 if (!(Materia == null || Materia == ""))
                 {
-                    return View(materias.Where(m => m.Nome == Materia));
+                    return View(materias.Where(m => m.Nome.Contains(Materia)));
                 }
                 else
                 {
