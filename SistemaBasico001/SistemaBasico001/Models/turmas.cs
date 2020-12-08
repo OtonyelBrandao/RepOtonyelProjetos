@@ -18,7 +18,7 @@ namespace SistemaBasico001.Models
         public turmas()
         {
             this.Alunos_Turmas = new HashSet<Alunos_Turmas>();
-            this.nota = new HashSet<nota>();
+            this.Materia_Turmas = new HashSet<Materia_Turmas>();
             this.Professores_Turmas = new HashSet<Professores_Turmas>();
         }
     
@@ -29,7 +29,7 @@ namespace SistemaBasico001.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Alunos_Turmas> Alunos_Turmas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<nota> nota { get; set; }
+        public virtual ICollection<Materia_Turmas> Materia_Turmas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Professores_Turmas> Professores_Turmas { get; set; }
     }

@@ -77,7 +77,7 @@
                 @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                 {
 
-                    @Html.ActionLink("Adicionar Turma", "Create", "Professores_Turmas", "", new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Adicionar Turma", "Create", "Professores_Turmas", new { idprofessor = Model.IDProfessor }, new { @class = "btn btn-primary" })
 
                 }
             </tbody>
@@ -108,7 +108,7 @@
                 }
                 @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                 {
-                    @Html.ActionLink("Adicionar Materia", "Create", "Materias_Professores", "", new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Adicionar Materia", "Create", "Materias_Professores",new { idprofessor = Model.IDProfessor }, new { @class = "btn btn-primary" })
                 }
             </tbody>
         </table>
@@ -116,12 +116,8 @@
 </div>
 
 <p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.IDProfessorTurma }) |*@
-    @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2 )
-    {
-        @Html.ActionLink("Alunos", "Index", "alunos", "", new { @class = "btn btn-primary" })
-    }
-    else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+   
+    @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
     {
         @Html.ActionLink("Voltar", "Index", "Professores", "", new { @class = "btn btn-primary" })
     }

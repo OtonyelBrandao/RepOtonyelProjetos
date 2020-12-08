@@ -23,8 +23,10 @@
     </div>
     <br />
     <div class="row">
-       
-        @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-primary " })
-    </div>
+        @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+        {
+            @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-primary " })
+        }
+        </div>
 </div>
 

@@ -16,10 +16,11 @@ namespace SistemaBasico001.Controllers
         // POST: Alunos_Materias/Create
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
-        public ActionResult Create()
+        public ActionResult Create(int? idaluno)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
+                ViewBag.IDAluno = idaluno;
                 ViewBag.Materia = new SelectList(db.materias, "IdMateria", "Nome");
                 return View();
             }
@@ -39,20 +40,22 @@ namespace SistemaBasico001.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Aluno,Materia")] Alunos_Materias alunos_Materias)
+        public ActionResult Create(int? IDAluno ,int Materia)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                alunos_Materias.IDAluno = Convert.ToInt32(Session["IDAIU"]);
+                Alunos_Materias AT = new Alunos_Materias();
+                AT.IDAluno = Convert.ToInt32(IDAluno);
+                AT.IDMateria = Materia;
                 if (ModelState.IsValid)
                 {
-                    db.Alunos_Materias.Add(alunos_Materias);
+                    db.Alunos_Materias.Add(AT);
                     db.SaveChanges();
                     return RedirectToAction("Details", "alunos");
                 }
 
-                ViewBag.Materia = new SelectList(db.materias, "IdMateria", "Nome", alunos_Materias.IDMateria);
-                return View(alunos_Materias);
+                ViewBag.Materia = new SelectList(db.materias, "IdMateria", "Nome", AT.IDMateria);
+                return View(AT);
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {

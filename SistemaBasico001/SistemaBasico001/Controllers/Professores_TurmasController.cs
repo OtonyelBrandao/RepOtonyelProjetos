@@ -106,11 +106,12 @@ namespace SistemaBasico001.Controllers
 
         }
         // GET: Professores_Turmas/Create
-        public ActionResult Create()
+        public ActionResult Create(int? idprofessor)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "Numero");
+                ViewBag.IDProfessor = idprofessor;
+                ViewBag.IDTurma = new SelectList(db.turmas, "IDTurma", "Numero");
                 return View();
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
@@ -132,19 +133,23 @@ namespace SistemaBasico001.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDProfessor,IDTurma")] Professores_Turmas professores_Alunos)
+        public ActionResult Create(int?IDProfessor , int?IDTurma)
         {
-            professores_Alunos.IDProfessor = Convert.ToInt32(Session["IDAIU"]);
+            Professores_Turmas PT = new Professores_Turmas();
+            PT.IDProfessor = Convert.ToInt32(IDProfessor);
+            PT.IDTurma = Convert.ToInt32(IDTurma);
+            
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 if (ModelState.IsValid)
                 {
-                    db.Professores_Turmas.Add(professores_Alunos);
+                    db.Professores_Turmas.Add(PT);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    professores P = db.professores.Find(IDProfessor);
+                    return RedirectToAction("Index","professores");
                 }
-                ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "ano", professores_Alunos.IDTurma);
-                return View(professores_Alunos);
+                ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "ano", PT.IDTurma);
+                return View(PT);
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {

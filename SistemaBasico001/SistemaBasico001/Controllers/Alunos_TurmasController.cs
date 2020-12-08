@@ -14,11 +14,12 @@ namespace SistemaBasico001.Controllers
     {
         private SistemaBasico001Entities db = new SistemaBasico001Entities();
         // GET: Alunos_Turmas/Create
-        public ActionResult Create()
+        public ActionResult Create(int? idaluno)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "Numero");
+                ViewBag.IDTurma = new SelectList(db.turmas, "IDTurma", "Numero");
+                ViewBag.IDAluno = idaluno;
                 return View();
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
@@ -41,11 +42,14 @@ namespace SistemaBasico001.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDAlunos,IDTurma")] Alunos_Turmas alunos_Turmas)
+        public ActionResult Create(int IDAluno , int IDTurma)
         {
+            Alunos_Turmas alunos_Turmas = new Alunos_Turmas();
+            alunos_Turmas.IDAluno = IDAluno;
+            alunos_Turmas.IDTurma = IDTurma;
+            alunos_Turmas.IDAlunoTurma = 0;
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                alunos_Turmas.IDAluno = Convert.ToInt32(Session["IDAIU"]);
                 if (ModelState.IsValid)
                 {
                     db.Alunos_Turmas.Add(alunos_Turmas);

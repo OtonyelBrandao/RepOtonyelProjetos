@@ -17,22 +17,23 @@ namespace SistemaBasico001.Controllers
         // GET: alunos
         public ActionResult Index(int? Matricula, string nome)
         {
-            ViewBag.ColunaInativa = "bg-danger";
-            if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+           
+            if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
             {
+                ViewBag.ColunaInativa = "bg-danger";
                 List<alunos> alunos = db.alunos.ToList();
-                if (!(Matricula == null || nome == null))
+                if (!(Matricula == null))
                 {
-                    return View(alunos.Where(a => a.Matricula == Matricula || a.Nome.Contains(nome)));
+                    return View(alunos.Where(a => a.Matricula == Matricula));
+                }
+                else if (!( nome == null))
+                {
+                    return View(alunos.Where(a => a.Nome.Contains(nome)));
                 }
                 else
                 {
                     return View(alunos);
                 }
-            }
-            else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
-            {
-                return RedirectToAction("Details", "Professores_Turmas");
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
             {

@@ -14,10 +14,11 @@ namespace SistemaBasico001.Controllers
     {
         private SistemaBasico001Entities db = new SistemaBasico001Entities();
         // GET: Materias_Professores/Create
-        public ActionResult Create()
+        public ActionResult Create(int? idprofessor)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
+                ViewBag.IDProfessor = idprofessor;
                 ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome");
                 ViewBag.IDProfessor = new SelectList(db.professores, "Senha", "Nome");
                 return View();
@@ -42,21 +43,24 @@ namespace SistemaBasico001.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDMateria,IDProfessor")] Materias_Professores materias_Professores)
+        public ActionResult Create(int? IDMateria , int? IDProfessor)
         {
-            materias_Professores.IDProfessor = Convert.ToInt32(Session["IDAIU"]);
+            
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
+                Materias_Professores MP = new Materias_Professores();
+                MP.IDProfessor = Convert.ToInt32(IDProfessor);
+                MP.IDMateria = Convert.ToInt32(IDMateria);
                 if (ModelState.IsValid)
                 {
-                    db.Materias_Professores.Add(materias_Professores);
+                    db.Materias_Professores.Add(MP);
                     db.SaveChanges();
                     return RedirectToAction("Details","Professores_Turmas");
                 }
 
-                ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome", materias_Professores.IDMateria);
-                ViewBag.IDProfessor = new SelectList(db.professores, "Senha", "Nome", materias_Professores.IDProfessor);
-                return View(materias_Professores);
+                ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome", MP.IDMateria);
+                ViewBag.IDProfessor = new SelectList(db.professores, "Senha", "Nome", MP.IDProfessor);
+                return View(MP);
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {

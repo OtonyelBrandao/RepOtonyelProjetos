@@ -36,7 +36,7 @@
                     else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
                     {
                         <li>@Html.ActionLink("Notas", "Index", "notas")</li>
-                        <li>@Html.ActionLink("Alunos", "index", "alunos")</li>
+                        <li>@Html.ActionLink("Alunos", "Index", "alunos")</li>
                         <li>@Html.ActionLink("Professor", "Detalhes", "Professores_Turmas")</li>
                     }
                     else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)

@@ -24,8 +24,6 @@ namespace SistemaBasico001.Models
         public int IDTurma { get; set; }
         public int IDMateria { get; set; }
     
-        public virtual alunos alunos { get; set; }
         public virtual materias materias { get; set; }
-        public virtual turmas turmas { get; set; }
     }
 }

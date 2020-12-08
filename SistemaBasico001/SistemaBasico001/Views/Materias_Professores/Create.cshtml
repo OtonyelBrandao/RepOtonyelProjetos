@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Adicionar Materia Professores";
+    var IDProfessor = ViewBag.IDProfessor;
 }
 
     <h2>Adicionar Materia</h2>
@@ -23,6 +24,7 @@
                 @Html.ValidationMessageFor(model => model.IDMateria, "", new { @class = "text-danger" })
             </div>
         </div>
+        <input type="number" value="@IDProfessor" name="IDProfessor" class="hidden"/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Adicionar" class="btn btn-success" />

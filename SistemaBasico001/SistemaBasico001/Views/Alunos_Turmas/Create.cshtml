@@ -2,15 +2,17 @@
 
 @{
     ViewBag.Title = "Adicionar Turma Alunos";
+    var IDAluno = ViewBag.IDAluno;
+    
 }
 
 <h2>Adicionar Turma</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Alunos</h4>
         <hr />
@@ -22,7 +24,7 @@
                 @Html.ValidationMessageFor(model => model.IDTurma, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <input type="number" value="@IDAluno" name="IDAluno" class="hidden"/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Adicionar" class="btn btn-success" />
@@ -32,7 +34,7 @@
 }
 
 <div>
-    @Html.ActionLink("Voltar", "Details","alunos","",new { @class = "btn btn-primary"})
+    @Html.ActionLink("Voltar", "Details", "alunos", "", new { @class = "btn btn-primary" })
 </div>
 
 @section Scripts {

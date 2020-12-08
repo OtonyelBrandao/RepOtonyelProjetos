@@ -68,13 +68,18 @@
                             {
                                 @Html.ActionLink("Deletar", "Delete", "Alunos_Turmas", new { id = item.IDAlunoTurma }, new { @class = "btn btn-danger" })
                             }
+                            else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
+                            {
+                                <button type="button" class = "btn btn-primary details" data-id="@item.IDAluno" data-idTurma="@item.IDTurma"> Minhas Notas</button>
+                                
+                            }
                         </td>
                     </tr>
                 }
                 @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                 {
 
-                    @Html.ActionLink("Adicionar Turma", "Create", "Alunos_Turmas", "", new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Adicionar Turma", "Create", "Alunos_Turmas",new {idaluno = Model.IDAluno}, new { @class = "btn btn-primary" })
 
                 }
             </tbody>
@@ -98,14 +103,14 @@
                         </td>
                         @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                         {
-                            <td>@Html.ActionLink("Deletar", "Delete", "Alunos_Turmas", new { id = item.IDAlunoMateria }, new { @class = "btn btn-danger" })</td>
+                            <td>@Html.ActionLink("Deletar", "Delete", "Alunos_Materias", new { id = item.IDAlunoMateria }, new { @class = "btn btn-danger" })</td>
                         }
                         <td>@Html.ActionLink("Detalhes", "Details", "materias", new { id = item.materias.IdMateria }, new { @class = "btn btn-success" })</td>
                     </tr>
                 }
                 @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                 {
-                    @Html.ActionLink("Adicionar Materia", "Create", "Alunos_Turmas", "", new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Adicionar Materia", "Create", "Alunos_Materias",new { idaluno = Model.IDAluno}, new { @class = "btn btn-primary" })
                 }
             </tbody>
         </table>
@@ -113,8 +118,25 @@
 </div>
 @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
 {
-<p>
-    @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-primary" })
-</p>
+    <p>
+        @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-primary" })
+    </p>
+}
+
+<div id="modal" class="modal fade" role="dialog" data-backdrop="static" />
+@section scripts{
+
+    <script>
+        $(function () {
+            $(".details").click(function () {
+                var id = $(this).attr("data-id");
+                var idTurma = $(this).attr("data-idTurma");
+                $("#modal").load("/notas/Details/" + id + "?idTurma=" + idTurma, function () {
+                    $("#modal").modal();
+                })
+            });
+        });
+
+    </script>
 }
 

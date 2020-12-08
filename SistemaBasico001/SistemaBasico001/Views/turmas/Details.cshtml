@@ -96,13 +96,9 @@
     </div>
 </div>
 <p>
-    @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
+    @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
     {
-        @Html.ActionLink("Voltar", "Verificador", "alunos", "", new { @class = "btn btn-primary" })
-    }
-    else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
-    {
-        @Html.ActionLink("Voltar", "Details", "Professores_Turmas", "", new { @class = "btn btn-primary" })
+        @Html.ActionLink("Voltar", "Index", "Professores_Turmas", "", new { @class = "btn btn-primary" })
     }
 </p>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
