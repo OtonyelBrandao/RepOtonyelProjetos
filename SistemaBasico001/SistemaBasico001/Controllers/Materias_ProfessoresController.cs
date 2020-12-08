@@ -20,7 +20,6 @@ namespace SistemaBasico001.Controllers
             {
                 ViewBag.IDProfessor = idprofessor;
                 ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome");
-                ViewBag.IDProfessor = new SelectList(db.professores, "Senha", "Nome");
                 return View();
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
@@ -55,11 +54,10 @@ namespace SistemaBasico001.Controllers
                 {
                     db.Materias_Professores.Add(MP);
                     db.SaveChanges();
-                    return RedirectToAction("Details","Professores_Turmas");
+                    return RedirectToAction("Index","professores");
                 }
 
                 ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome", MP.IDMateria);
-                ViewBag.IDProfessor = new SelectList(db.professores, "Senha", "Nome", MP.IDProfessor);
                 return View(MP);
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)

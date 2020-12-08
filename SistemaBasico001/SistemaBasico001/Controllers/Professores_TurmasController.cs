@@ -274,7 +274,7 @@ namespace SistemaBasico001.Controllers
                 Professores_Turmas professores_Alunos = db.Professores_Turmas.Find(id);
                 db.Professores_Turmas.Remove(professores_Alunos);
                 db.SaveChanges();
-                return RedirectToAction("Details","Professores_Turmas");
+                return RedirectToAction("Index","professores");
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {
@@ -291,13 +291,13 @@ namespace SistemaBasico001.Controllers
             
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }
