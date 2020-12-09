@@ -65,29 +65,32 @@ namespace SistemaBasico001.Controllers
                 {
                     contador += 1;
                 }
-                string[,] notas = new string[contador, 7];
+                string[,] notas = new string[contador, 13];
                 ViewBag.IDTurma = idTurma;
                 int contador2 = 0;
                 int cont3 = 1;
                 foreach (Alunos_Materias Materia in Materias)
                 {
                     notas[contador2, 0] = Materia.materias.Nome;
+                    notas[contador2, 1] = Convert.ToString(Materia.materias.IdMateria);
                     IQueryable<nota> Notas = nota1.Where(n => n.IDMateria == Materia.IDMateria);
+                    cont3++;
                     foreach (nota Nota in Notas)
                     {
-                        if (cont3 == 6)
+                        if (cont3 == 13)
                         {
                             notas[contador2, cont3] = Convert.ToString(
-                                Convert.ToInt32(notas[contador2, 1]) +
                                 Convert.ToInt32(notas[contador2, 2]) +
-                                Convert.ToInt32(notas[contador2, 3]) +
-                                Convert.ToInt32(notas[contador2, 4]) / 4);
+                                Convert.ToInt32(notas[contador2, 4]) +
+                                Convert.ToInt32(notas[contador2, 6]) +
+                                Convert.ToInt32(notas[contador2, 8]) / 4);
                         }
                         else
                         {
                             if (Nota.IDMateria == Materia.materias.IdMateria)
                             {
                                 notas[contador2, cont3] = Convert.ToString(Nota.Nota1);
+                                notas[contador2, cont3+1] = Convert.ToString(Nota.id);
                             }
                             else
                             {
@@ -95,7 +98,7 @@ namespace SistemaBasico001.Controllers
                             }
 
                         }
-                        cont3++;
+                        cont3 += 2;
                     }
                     cont3 = 1;
                     contador2 += 1;
@@ -116,7 +119,13 @@ namespace SistemaBasico001.Controllers
                         notas[contador, 3],
                         notas[contador, 4],
                         notas[contador, 5],
-                        notas[contador, 6]
+                        notas[contador, 6],
+                        notas[contador, 7],
+                        notas[contador, 8],
+                        notas[contador, 9],
+                        notas[contador, 10],
+                        notas[contador, 11],
+                        notas[contador, 12]
                         ));
                 }
                 //Varrendo Notas Nas Materias Fim >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -181,30 +190,28 @@ namespace SistemaBasico001.Controllers
                 return RedirectToAction("Login", "Login");
             }
         }
-        public ActionResult Edit()
+        public ActionResult Edit(string IDMateria ,string IDNota, int? IDAluno , int?IDTurma)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
             {
-                ViewBag.IDAluno = new SelectList(db.alunos, "IDAluno", "Nome");
-                ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome");
-                ViewBag.IDTurma = new SelectList(db.turmas, "IDTurma", "Numero");
-                ViewBag.IDNota = new SelectList(db.nota, "id", "Nota1");
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
-        }
-        public ActionResult Editar2(int? IDAluno, int? IDTurma, int? IDMateria)
-        {
-            if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
-            {
-                ViewBag.IDNota = new SelectList(db.nota.Where
-            (n => n.IDAluno == IDAluno
-            && n.IDMateria == IDMateria
-            && n.IDTurma == IDTurma
-            ), "id", "Nota1");
+                alunos aluno = db.alunos.Find(IDAluno);
+                turmas turma = db.turmas.Find(IDTurma);
+                materias materia = db.materias.Find(Convert.ToInt32(IDMateria));
+                nota nota;
+                if (IDNota == "")
+                    IDNota = "-1";
+                else
+                {
+                    nota = db.nota.Find(Convert.ToInt32(IDNota));
+                    ViewBag.Nota = nota;
+                }
+
+                ViewBag.Aluno = aluno;
+                ViewBag.Materia = materia;
+                ViewBag.Turma = turma;
+                ViewBag.IDNota = Convert.ToInt32(IDNota);
+                
+
                 return View();
             }
             else
@@ -216,23 +223,47 @@ namespace SistemaBasico001.Controllers
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Editado(int? IDNota, float Nota1)
+        public ActionResult Edit(int? IDNota, float Nota , int IDAluno ,int IDTurma ,int IDMateria)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
             {
-                nota nota = db.nota.Find(IDNota);
-                nota.Nota1 = Nota1;
-                if (ModelState.IsValid)
+                if(IDNota > -1 )
                 {
-                    db.Entry(nota).State = EntityState.Modified;
+                    nota nota = db.nota.Find(IDNota);
+                    nota.Nota1 = Nota;
+                    if (ModelState.IsValid)
+                    {
+                        db.Entry(nota).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    return View(nota);
+                }
+                else if(IDNota != null)
+                {
+                    nota nota = db.nota.Find(IDNota);
+                    nota.Nota1 = Nota;
+                    if (ModelState.IsValid)
+                    {
+                        db.Entry(nota).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    return View(nota);
+                    
+                }
+                else
+                {
+                    nota nota = new nota();
+                    nota.IDAluno = IDAluno;
+                    nota.IDMateria = IDMateria;
+                    nota.IDTurma = IDTurma;
+                    nota.Nota1 = Nota;
+                    db.nota.Add(nota);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                ViewBag.IDAluno = new SelectList(db.alunos, "Matricula", "Nome", nota.IDAluno);
-                ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome", nota.IDMateria);
-                ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "ano", nota.IDTurma);
-                ViewBag.IDNota = new SelectList(db.nota, "id", "Nota1", nota.id);
-                return View(nota);
+                
             }
             else
             {
