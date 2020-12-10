@@ -35,7 +35,7 @@ namespace SistemaBasico001.Controllers
         }
 
         // GET: notas/Details/5
-        public ActionResult Details(int? id, int idTurma)
+        public ActionResult Details(int? id, int? idTurma)
         {//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
          //Seleção de Materias  Inicio >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 1)
@@ -239,20 +239,7 @@ namespace SistemaBasico001.Controllers
                     }
                     return View(nota);
                 }
-                else if(IDNota != null)
-                {
-                    nota nota = db.nota.Find(IDNota);
-                    nota.Nota1 = Nota;
-                    if (ModelState.IsValid)
-                    {
-                        db.Entry(nota).State = EntityState.Modified;
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    return View(nota);
-                    
-                }
-                else
+                else if(IDNota == -1 || IDNota == null)
                 {
                     nota nota = new nota();
                     nota.IDAluno = IDAluno;
@@ -262,6 +249,21 @@ namespace SistemaBasico001.Controllers
                     db.nota.Add(nota);
                     db.SaveChanges();
                     return RedirectToAction("Index");
+
+
+                }
+                else 
+                {
+                    
+                    nota nota = db.nota.Find(IDNota);
+                    nota.Nota1 = Nota;
+                    if (ModelState.IsValid)
+                    {
+                        db.Entry(nota).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    return View(nota);
                 }
                 
             }

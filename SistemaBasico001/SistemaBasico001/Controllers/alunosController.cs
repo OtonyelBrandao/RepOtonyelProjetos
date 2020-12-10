@@ -144,6 +144,7 @@ namespace SistemaBasico001.Controllers
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 alunos.Matricula = Convert.ToInt32(Convert.ToString(DateTime.Now.Year) + alunos.Matricula);
+                alunos.Ativo = -1;
                 if (ModelState.IsValid)
                 {
                     db.alunos.Add(alunos);
@@ -205,7 +206,7 @@ namespace SistemaBasico001.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar([Bind(Include = "Nome,Matricula,Nascimento,Email")] alunos alunos)
+        public ActionResult Editar([Bind(Include = "Nome,Matricula,Nascimento,Email,IDAluno,Ativo")] alunos alunos)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {

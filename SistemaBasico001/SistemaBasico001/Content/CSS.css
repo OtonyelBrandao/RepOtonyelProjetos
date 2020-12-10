@@ -4,3 +4,8 @@
 .botao {
     margin-top: 20px;
 }
+Nota, .Nota:hover {
+    text-decoration: none;
+    font-size: 30px;
+}
+

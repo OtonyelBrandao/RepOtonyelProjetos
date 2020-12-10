@@ -37,9 +37,11 @@
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
     </div>
+    <input type="number" class="hidden" value="@Model.Matricula"name="Matricula"/>
+    <input type="number" class="hidden" value="@Model.Ativo" name="Ativo" />
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button type="submit" value="@Model.IDAluno"name="Matricula" class="btn btn-success" >Salvar</button>
+            <button type="submit" value="@Model.IDAluno" name="IDAluno" class="btn btn-success">Salvar</button>
         </div>
     </div>
 </div>

@@ -108,15 +108,15 @@ namespace SistemaBasico001.Controllers
 
         // GET: professores/Edit/5
         [HttpPost]
-        public ActionResult Edit(string Senha)
+        public ActionResult Edit(int? id)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                if (Senha == null)
+                if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                professores professores = db.professores.Find(Senha);
+                professores professores = db.professores.Find(id);
                 if (professores == null)
                 {
                     return HttpNotFound();
@@ -143,7 +143,7 @@ namespace SistemaBasico001.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar([Bind(Include = "Nome,Nascimento,Email,Senha")] professores professores)
+        public ActionResult Editar([Bind(Include = "Nome,Nascimento,Email,Senha,IDProfessor,Ativo")] professores professores)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {

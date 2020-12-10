@@ -24,7 +24,7 @@
                 @Html.ValidationMessageFor(model => model.ano, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        @Html.HiddenFor(model => model.IDTurma)
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Salvar" class="btn btn-success" />
