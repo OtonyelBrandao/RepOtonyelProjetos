@@ -46,16 +46,61 @@ namespace SistemaBasico001.Controllers
         }
 
         // GET: alunos/Details/5
+        //public ActionResult Details(int? IDAluno)
+        //{
+        //    if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
+        //    {
+        //        if (IDAluno == null)
+        //        {
+        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //        }
+        //        alunos alunos = db.alunos.Find(IDAluno);
+        //        if (alunos == null)
+        //        {
+        //            return HttpNotFound();
+        //        }
+        //        return View(alunos);
+        //    }
+        //    else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
+        //    {
+        //        return RedirectToAction("Details", "alunos");
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Login", "Login");
+        //    }
+
+        //}
+        public ActionResult Details(alunos alunos)
+        {
+            if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
+            {
+                if (alunos == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                if (alunos == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(alunos);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+        }
         [HttpPost]
         public ActionResult Details(int? Matricula)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
             {
-                if (Matricula == null)
+                if (IDAluno == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                alunos alunos = db.alunos.Find(Matricula);
+                alunos alunos = db.alunos.Find(IDAluno);
                 if (alunos == null)
                 {
                     return HttpNotFound();
