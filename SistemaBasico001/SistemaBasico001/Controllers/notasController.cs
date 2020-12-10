@@ -33,15 +33,14 @@ namespace SistemaBasico001.Controllers
                 return RedirectToAction("Login", "Login");
             }
         }
-
         // GET: notas/Details/5
-        public ActionResult Details(int? id, int? idTurma)
+        public ActionResult Details(int? IDAluno, int? IDTurma)
         {//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
          //Seleção de Materias  Inicio >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 1)
             {
-                IQueryable<Alunos_Materias> Alunos = db.Alunos_Materias.Where(AM => AM.IDAluno == id);
-                IQueryable<Materia_Turmas> Turmas = db.Materia_Turmas.Where(MT => MT.idTurma == idTurma);
+                IQueryable<Alunos_Materias> Alunos = db.Alunos_Materias.Where(AM => AM.IDAluno == IDAluno);
+                IQueryable<Materia_Turmas> Turmas = db.Materia_Turmas.Where(MT => MT.idTurma == IDTurma);
                 IQueryable<Alunos_Materias> Materias = from T in Turmas
                                                        from A in Alunos
                                                        where T.idMateria == A.IDMateria
@@ -52,8 +51,8 @@ namespace SistemaBasico001.Controllers
                                          from al in db.alunos
                                          from tm in db.turmas
                                          from mt in db.materias
-                                         where al.IDAluno == id
-                                         && tm.IDTurma == idTurma
+                                         where al.IDAluno == IDAluno
+                                         && tm.IDTurma == IDTurma
                                          && mt.IdMateria == nt.IDMateria
                                          && tm.IDTurma == nt.IDTurma
                                          && al.IDAluno == nt.IDAluno
@@ -66,7 +65,7 @@ namespace SistemaBasico001.Controllers
                     contador += 1;
                 }
                 string[,] notas = new string[contador, 13];
-                ViewBag.IDTurma = idTurma;
+                ViewBag.IDTurma = IDTurma;
                 int contador2 = 0;
                 int cont3 = 1;
                 foreach (Alunos_Materias Materia in Materias)
@@ -103,7 +102,6 @@ namespace SistemaBasico001.Controllers
                     cont3 = 1;
                     contador2 += 1;
                 }
-
                 ViewData["notas"] = notas;
                 Notas Nts = new Notas();
                 contador = -1;
@@ -130,11 +128,11 @@ namespace SistemaBasico001.Controllers
                 }
                 //Varrendo Notas Nas Materias Fim >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-                if (id == null)
+                if (IDAluno == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                alunos aluno = db.alunos.Find(id);
+                alunos aluno = db.alunos.Find(IDAluno);
                 if (aluno == null)
                 {
                     return HttpNotFound();
@@ -147,7 +145,6 @@ namespace SistemaBasico001.Controllers
             }
 
         }
-
         // GET: notas/Create
         public ActionResult Create()
         {
@@ -163,7 +160,6 @@ namespace SistemaBasico001.Controllers
                 return RedirectToAction("Login", "Login");
             }
         }
-
         // POST: notas/Create
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -179,7 +175,6 @@ namespace SistemaBasico001.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-
                 ViewBag.IDAluno = new SelectList(db.alunos, "IDAluno", "Nome", nota.IDAluno);
                 ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome", nota.IDMateria);
                 ViewBag.IDTurma = new SelectList(db.turmas, "IDTurma", "ano", nota.IDTurma);
@@ -235,7 +230,7 @@ namespace SistemaBasico001.Controllers
                     {
                         db.Entry(nota).State = EntityState.Modified;
                         db.SaveChanges();
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Details",new { IDAluno,IDTurma });
                     }
                     return View(nota);
                 }
@@ -248,20 +243,17 @@ namespace SistemaBasico001.Controllers
                     nota.Nota1 = Nota;
                     db.nota.Add(nota);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
-
-
+                    return RedirectToAction("Details", new { IDAluno, IDTurma });
                 }
                 else 
                 {
-                    
                     nota nota = db.nota.Find(IDNota);
                     nota.Nota1 = Nota;
                     if (ModelState.IsValid)
                     {
                         db.Entry(nota).State = EntityState.Modified;
                         db.SaveChanges();
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Details", new { IDAluno, IDTurma });
                     }
                     return View(nota);
                 }

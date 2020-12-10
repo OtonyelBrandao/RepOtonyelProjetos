@@ -63,26 +63,21 @@
                 @Html.DisplayFor(modelItem => item.turmas.ano)
             </td>
             <td>
-                <button class="btn btn-success details" data-id="@item.alunos.IDAluno" data-idTurma="@item.turmas.IDTurma"><i class="glyphicon glyphicon-file"></i></button>
+                @using (Html.BeginForm("Details", "notas"))
+                {
+                    var IDAluno = item.alunos.IDAluno;
+                    var IDTurma = item.turmas.IDTurma;
+
+                    @Html.HiddenFor(ModelItem => IDAluno)
+                    @Html.HiddenFor(ModelItem => IDTurma)
+
+                    <button type="submit" class="btn btn-success "><i class="glyphicon glyphicon-file"></i></button>
+                }
+
             </td>
         </tr>
     }
 
 </table>
 <div id="modal" class="modal fade" role="dialog" data-backdrop="static" />
-@section scripts{
-
-    <script>
-        $(function () {
-            $(".details").click(function () {
-                var id = $(this).attr("data-id");
-                var idTurma = $(this).attr("data-idTurma");
-                $("#modal").load("/notas/Details/" + id + "?idTurma=" + idTurma, function () {
-                    $("#modal").modal();
-                })
-            });
-        });
-
-    </script>
-}
 

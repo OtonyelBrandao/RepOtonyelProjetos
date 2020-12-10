@@ -11,8 +11,7 @@
     IQueryable<Alunos_Materias> AM = db.Alunos_Materias.Where(am => am.alunos.Matricula == Model.Matricula);
     IQueryable<Materia_Turmas> MT = db.Materia_Turmas.Where(mt => mt.idTurma == nt.IDTurma);
     IQueryable<nota> notas = db.nota.Where(n => n.IDAluno == Model.Matricula && n.IDTurma == nt.IDTurma);
-    ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_LayoutSemBarrraDeNavegacao.cshtml";
+    ViewBag.Title = "Boletim - Aluno";
     var materias = ViewBag.Materias;
     var materiasDoAluno = from mt in db.Alunos_Materias
                           from tu in db.Materia_Turmas
@@ -23,143 +22,111 @@
     var notasDoAluno = from nta in db.nota
                        select nta;
     var nota = ViewBag.TabelaDeNotas;
-
 }
+<h2>Boletim</h2>
+<h4 class="panel-title">@Model.Nome</h4>
+<div class="modal-body">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Matricula)</dt>
+        <dd>@Html.DisplayFor(model => model.Matricula)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Nascimento)</dt>
+        @{string Nascimento = string.Format("{0:dd/MM/yyyy}", Model.Nascimento);}
+        <dd>@Html.DisplayFor(model => Nascimento)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd>@Html.DisplayFor(model => model.Email)</dd>
+    </dl>
+    <br />
+    <table class="table table-bordered">
+        <tr>
+            <th class="Center">
+                Materias
+            </th>
+            <th>Nota 1</th>
+            <th>Nota 2</th>
+            <th>Nota 3</th>
+            <th>Nota 4</th>
+            <th>Recuperação</th>
+            <th>Nota Total</th>
+        </tr>
+        @*@if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
+            {*@
+        @foreach (var item in nota)
+        {
+            <tr>
+                <td>@item.Materia</td>
 
-<h2>Details</h2>
+                @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
+                {
+                <td class="edit cursor" data-IDNota="@item.IDNota1" data-IDTurma="@nt.IDTurma" data-IDAluno="@Model.IDAluno" data-IDMateria="@item.IDMateria">
+                    @item.Nota1
+                </td>
+                }
+                else
+                {
+                    <td>
+                        @item.Nota1
+                    </td>
+                }
 
-<div class="container">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">@Model.Nome</h4>
-            </div>
-            <div class="modal-body">
-                <hr />
-                <dl class="dl-horizontal">
-                    <dt>@Html.DisplayNameFor(model => model.Matricula)</dt>
-                    <dd>@Html.DisplayFor(model => model.Matricula)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.Nascimento)</dt>
-                    @{string Nascimento = string.Format("{0:dd/MM/yyyy}", Model.Nascimento);}
-                    <dd>@Html.DisplayFor(model => Nascimento)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.Email)</dt>
-                    <dd>@Html.DisplayFor(model => model.Email)</dd>
-                </dl>
-                <br />
-                <table class="table table-bordered">
-                    <tr>
-                        <th class="Center">
-                            Materias
-                        </th>
-                        <th>Nota 1</th>
-                        <th>Nota 2</th>
-                        <th>Nota 3</th>
-                        <th>Nota 4</th>
-                        <th>Recuperação</th>
-                        <th>Nota Total</th>
-                    </tr>
-                    @*@if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
-                        {*@
-                    @foreach (var item in nota)
-                    {
-                    <tr>
-                        <td>@item.Materia</td>
-
-                        @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
-                        {
-                            <td>
-                                <a href="/notas/Edit/?IDMateria=@item.IDMateria&&IDNota=@item.IDNota1&&IDAluno=@Model.IDAluno&&IDTurma=@nt.IDTurma" class="Nota">@item.Nota1</a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                @item.Nota1
-                            </td>
-                        }
-
-                        @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
-                        {
-                            <td>
-                                <a href="/notas/Edit/?IDMateria=@item.IDMateria&&IDNota=@item.IDNota2&&IDAluno=@Model.IDAluno&&IDTurma=@nt.IDTurma" class="Nota">@item.Nota2</a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                @item.Nota2
-                            </td>
-                        }
-                        @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
-                        {
-                            <td>
-                                <a href="/notas/Edit/?IDMateria=@item.IDMateria&&IDNota=@item.IDNota3&&IDAluno=@Model.IDAluno&&IDTurma=@nt.IDTurma" class="Nota">@item.Nota3</a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                @item.Nota3
-                            </td>
-                        }
-                        @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
-                        {
-                            <td>
-                                <a href="/notas/Edit/?IDMateria=@item.IDMateria&&IDNota=@item.IDNota4&&IDAluno=@Model.IDAluno&&IDTurma=@nt.IDTurma" class="Nota">@item.Nota4</a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                @item.Nota4
-                            </td>
-                        }
-                        @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
-                        {
-                            <td>
-                                <a href="/notas/Edit/?IDMateria=@item.IDMateria&&IDNota=@item.IDRecu&&IDAluno=@Model.IDAluno&&IDTurma=@nt.IDTurma" class="Nota">@item.Recu</a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                @item.Recu
-                            </td>
-                        }
-                        <td>@item.Media</td>
-                    </tr>
-                    }
-                    @*}
-                        else
-                        {
-                            @foreach (var item in nota)
-                            {
-                                <tr>
-                                    <td>@item.Materia</td>
-                                    <td>@item.Nota1</td>
-                                    <td>@item.Nota2</td>
-                                    <td>@item.Nota3</td>
-                                    <td>@item.Nota4</td>
-                                    <td>@item.Recu</td>
-                                    <td>@item.Media</td>
-                                </tr>
-                            }
-                        }*@
-                </table>
-
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+                @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
+                {
+                    <td class="edit cursor" data-IDNota="@item.IDNota2" data-IDTurma="@nt.IDTurma" data-IDAluno="@Model.IDAluno" data-IDMateria="@item.IDMateria">
+                        @item.Nota2
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @item.Nota2
+                    </td>
+                }
+                @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
+                {
+                    <td class="edit cursor" data-IDNota="@item.IDNota3" data-IDTurma="@nt.IDTurma" data-IDAluno="@Model.IDAluno" data-IDMateria="@item.IDMateria">
+                        @item.Nota3
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @item.Nota3
+                    </td>
+                }
+                @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
+                {
+                    <td class="edit cursor" data-IDNota="@item.IDNota4" data-IDTurma="@nt.IDTurma" data-IDAluno="@Model.IDAluno" data-IDMateria="@item.IDMateria">
+                        @item.Nota4
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @item.Nota4
+                    </td>
+                }
+                @if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
+                {
+                    <td class="edit cursor" data-IDNota="@item.IDRecu" data-IDTurma="@nt.IDTurma" data-IDAluno="@Model.IDAluno" data-IDMateria="@item.IDMateria">
+                        @item.Recu
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @item.Recu
+                    </td>
+                }
+                <td>@item.Media</td>
+            </tr>
+        }
+    </table>
+</div>
+<div >
+    @Html.ActionLink("Voltar","Index","notas","",new { @class="btn btn-primary"})
 </div>
 <div id="modal" class="modal fade" role="dialog" data-backdrop="static" />
 @section scripts{
-
     <script>
         $(function () {
             $(".edit").click(function () {
@@ -167,11 +134,10 @@
                 var IDNota = $(this).attr("data-IDNota");
                 var IDTurma = $(this).attr("data-IDTurma");
                 var IDAluno = $(this).attr("data-IDAluno");
-                $("#modal").load("/notas/Edit/" + IDMateria + "?IDNota=" + IDNota + "&&IDAluno=" + IDAluno + "&&IDTurma=" + IDTurma, function () {
+                $("#modal").load("/notas/Edit/?IDMateria=" + IDMateria + "&&IDNota=" + IDNota + "&&IDAluno=" + IDAluno + "&&IDTurma="   + IDTurma, function () {
                     $("#modal").modal();
                 })
             });
         });
-
     </script>
 }

@@ -2,7 +2,7 @@
 
 @{
     /**/
-
+    Layout = "~/Views/Shared/_LayoutSemBarrraDeNavegacao.cshtml";
     ViewBag.Title = "Atualizar Nota";
     dynamic nota = ViewBag.Nota;
     var aluno = ViewBag.Aluno;
@@ -14,48 +14,60 @@
     string Materia = materia.Nome;
     string Ano = turma.ano;
 }
-
-<h2>Atualizar Nota</h2>
-<dl class="dl-horizontal">
-    <dt>Nome</dt>
-    <dd>@Html.DisplayFor(model => Nome)</dd>
-    <dt>Ano</dt>
-    <dd>@Html.DisplayFor(model => Ano)</dd>
-    <dt>Materia</dt>
-    <dd>@Html.DisplayFor(model => Materia)</dd>
-    <dt>Numero Da Turma</dt>
-    <dd>@Html.DisplayFor(model => NumeroDeTurma)</dd>
-</dl>
-<form action="~/notas/Edit" method="post">
-    <div>
-        <dl class="dl-horizontal">
-
-            @if (IDNota == -1)
-            {
-                <dt>Nota Atual</dt>
-                <dd>0</dd>
-            }
-            else
-            {
-                <dt>Nota Atual</dt>
-                <dd>@nota.Nota1</dd>
-            }
-        </dl>
-
-        <br />
-
-        <div>
-            <label>Nova Nota :</label>
-            <input name="IDNota" value="@IDNota" class="hidden" />
-            <input name="IDAluno" value="@aluno.IDAluno" class="hidden" />
-            <input name="IDTurma" value="@turma.IDTurma" class="hidden" />
-            <input name="IDMateria" value="@materia.IdMateria" class="hidden" />
-            <input type="number" name="Nota" class="form-control" />
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Atualizar Nota</h2>
         </div>
+        <div class="modal-body">
+            <dl class="dl-horizontal">
+                <dt>Nome</dt>
+                <dd>@Html.DisplayFor(model => Nome)</dd>
+                <dt>Ano</dt>
+                <dd>@Html.DisplayFor(model => Ano)</dd>
+                <dt>Materia</dt>
+                <dd>@Html.DisplayFor(model => Materia)</dd>
+                <dt>Numero Da Turma</dt>
+                <dd>@Html.DisplayFor(model => NumeroDeTurma)</dd>
+            </dl>
 
+            <form action="~/notas/Edit" method="post">
+                <div>
+                    <dl class="dl-horizontal">
+
+                        @if (IDNota == -1)
+                        {
+                            <dt>Nota Atual</dt>
+                            <dd>0</dd>
+                        }
+                        else
+                        {
+                            <dt>Nota Atual</dt>
+                            <dd>@nota.Nota1</dd>
+                        }
+                    </dl>
+
+                    <br />
+
+                    <div>
+                        <label>Nova Nota :</label>
+                        <input name="IDNota" value="@IDNota" class="hidden" />
+                        <input name="IDAluno" value="@aluno.IDAluno" class="hidden" />
+                        <input name="IDTurma" value="@turma.IDTurma" class="hidden" />
+                        <input name="IDMateria" value="@materia.IdMateria" class="hidden" />
+                        <input type="number" name="Nota" class="form-control" />
+                    </div>
+
+                </div>
+                <br />
+                <div>
+                    <button type="submit" class="btn btn-primary">Atualizar Nota</button>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal">Fechar</button>
+        </div>
     </div>
-    <br />
-    <div>
-        <button type="submit" class="btn btn-primary">Atualizar Nota</button>
-    </div>
-</form>
+</div>
