@@ -46,9 +46,9 @@ namespace SistemaBasico001.Controllers
 
         // GET: professores/Details/5
         [HttpPost]
-        public ActionResult Details(string Senha)
+        public ActionResult Details(int? IDProfessor)
         {
-            return RedirectToAction("Details", "Professores_Turmas", Senha);
+            return RedirectToAction("Details", "Professores_Turmas", IDProfessor);
             
         }
 
@@ -108,15 +108,15 @@ namespace SistemaBasico001.Controllers
 
         // GET: professores/Edit/5
         [HttpPost]
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? IDProfessor)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                if (id == null)
+                if (IDProfessor == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                professores professores = db.professores.Find(id);
+                professores professores = db.professores.Find(IDProfessor);
                 if (professores == null)
                 {
                     return HttpNotFound();
@@ -172,15 +172,15 @@ namespace SistemaBasico001.Controllers
 
         // GET: professores/Delete/5
         [HttpPost]
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? IDProfessor)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                if (id == null)
+                if (IDProfessor == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                professores professores = db.professores.Find(id);
+                professores professores = db.professores.Find(IDProfessor);
                 if (professores == null)
                 {
                     return HttpNotFound();

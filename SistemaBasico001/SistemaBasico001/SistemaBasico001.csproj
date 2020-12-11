@@ -292,6 +292,7 @@
     <Content Include="Views\notas\Edit.cshtml" />
     <Content Include="Views\notas\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutSemBarrraDeNavegacao.cshtml" />
+    <Content Include="Views\materias\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

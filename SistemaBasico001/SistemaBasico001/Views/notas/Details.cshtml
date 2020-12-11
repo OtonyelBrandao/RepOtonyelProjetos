@@ -122,9 +122,13 @@
         }
     </table>
 </div>
-<div >
-    @Html.ActionLink("Voltar","Index","notas","",new { @class="btn btn-primary"})
+@if (Convert.ToInt32(Session["NivelDeAcesso"])>= 2)
+{
+<div>
+    @Html.ActionLink("Voltar", "Index", "notas", "", new { @class = "btn btn-primary" })
 </div>
+}
+
 <div id="modal" class="modal fade" role="dialog" data-backdrop="static" />
 @section scripts{
     <script>

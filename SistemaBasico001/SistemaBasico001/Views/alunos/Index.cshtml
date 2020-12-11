@@ -19,7 +19,7 @@
 <p>
     @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
     {
-    @Html.ActionLink("Cadastrar Novo Aluno", "Create", "", new { @class = "btn btn-primary" })
+        @Html.ActionLink("Cadastrar Novo Aluno", "Create", "", new { @class = "btn btn-primary" })
     }
 </p>
 <form method="post">
@@ -64,21 +64,24 @@
                     <td>
                         @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                         {
-                        <button type="submit" class="btn btn-primary" formaction="~/alunos/Edit" value="@item.IDAluno" name="Matricula">Editar</button>
+                            <button type="submit" class="btn btn-primary" formaction="~/alunos/Edit" value="@item.IDAluno" name="IDAluno">Editar</button>
                         }
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-success" formaction="~/alunos/Details" value="@item.IDAluno" name="Matricula">Detalhes</button>
+                        @using (Html.BeginForm("Details", "alunos"))
+                        {
+                            <button type="submit" class="btn btn-success" value="@item.IDAluno" name="IDAluno">Detalhes</button>
+                        }
                     </td>
                     <td>
                         @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                         {
-                        <button type="submit" class="btn btn-danger" formaction="~/alunos/Delete" value="@item.IDAluno" name="Matricula">
-                            @if (item.Ativo == 1)
-                            {<span>Ativado</span> }
-                            else
-                            {<span>Desativado</span>}
-                        </button>
+                            <button type="submit" class="btn btn-danger" formaction="~/alunos/Delete" value="@item.IDAluno" name="IDAluno">
+                                @if (item.Ativo == 1)
+                                {<span>Ativado</span> }
+                                else
+                                {<span>Desativado</span>}
+                            </button>
                         }
                     </td>
                 </tr>
@@ -102,16 +105,16 @@
                     <td>
                         @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                         {
-                            <button type="submit" class="btn btn-primary" formaction="~/alunos/Edit" value="@item.IDAluno" name="Matricula">Editar</button>
+                            <button type="submit" class="btn btn-primary" formaction="~/alunos/Edit" value="@item.IDAluno" name="IDAluno">Editar</button>
                         }
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-success" formaction="~/alunos/Details" value="@item.IDAluno" name="Matricula">Detalhes</button>
+                        <button type="submit" class="btn btn-success" formaction="~/alunos/Details" value="@item.IDAluno" name="IDAluno">Detalhes</button>
                     </td>
                     <td>
                         @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                         {
-                            <button type="submit" class="btn btn-danger" formaction="~/alunos/Delete" value="@item.IDAluno" name="Matricula">
+                            <button type="submit" class="btn btn-danger" formaction="~/alunos/Delete" value="@item.IDAluno" name="IDAluno">
                                 @if (item.Ativo == 1)
                                 {<span>Ativado</span> }
                                 else

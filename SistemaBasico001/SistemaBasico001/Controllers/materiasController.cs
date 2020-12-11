@@ -102,7 +102,64 @@ namespace SistemaBasico001.Controllers
             }
             
         }
-        
+        public ActionResult Edit(int? id)
+        {
+            if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                materias turmas = db.materias.Find(id);
+                if (turmas == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(turmas);
+            }
+            else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
+            {
+                return RedirectToAction("Details", "Professores_Turmas");
+            }
+            else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
+            {
+                return RedirectToAction("Details", "alunos");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "IdMateria,Nome,Descricao")] materias materias)
+        {
+            if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Entry(materias).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(materias);
+            }
+            else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
+            {
+                return RedirectToAction("Details", "Professores_Turmas");
+            }
+            else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
+            {
+                return RedirectToAction("Details", "alunos");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+        }
+
         // GET: materias/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -141,6 +198,26 @@ namespace SistemaBasico001.Controllers
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
+                IQueryable<Materias_Professores> MP = db.Materias_Professores.Where(mp => mp.IDMateria == id);
+                IQueryable<Materia_Turmas> MT = db.Materia_Turmas.Where(mt => mt.idMateria == id);
+                IQueryable<Alunos_Materias> AM = db.Alunos_Materias.Where(am => am.IDMateria == id); ;
+                IQueryable<nota> nt = db.nota.Where(NT => NT.IDMateria == id);
+                foreach (var mp in MP)
+                {
+                    db.Materias_Professores.Remove(mp);
+                }
+                foreach (var am in AM)
+                {
+                    db.Alunos_Materias.Remove(am);
+                }
+                foreach (var mt in MT)
+                {
+                    db.Materia_Turmas.Remove(mt);
+                }
+                foreach (var NT in nt)
+                {
+                    db.nota.Remove(NT);
+                }
                 materias materias = db.materias.Find(id);
                 db.materias.Remove(materias);
                 db.SaveChanges();

@@ -33,7 +33,8 @@ namespace SistemaBasico001.Controllers
         {
             Usuario usuario = new Usuario();
             int Autenticar = usuario.AutenticarUsuario(Usuario, Senha);
-            if (Autenticar == 1)
+            if(!(usuario.Ativo == -1 || usuario.Ativo == 0)) { 
+                if (Autenticar == 1)
             {
                 Session["NivelDeAcesso"] = usuario.NA;
                 Session["Nome"] = usuario.Nome;
@@ -59,6 +60,13 @@ namespace SistemaBasico001.Controllers
             {
                 ViewBag.Error = "alert alert-danger text-danger";
                 ViewBag.Message = "Usuario ou Senha Invalido !!";
+                return View();
+            }
+            }
+            else
+            {
+                ViewBag.Error = "alert alert-danger text-danger";
+                ViewBag.Message = "Usuario inativo !! ,por favor entre em contato com o administrador.";
                 return View();
             }
         }

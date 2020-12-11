@@ -225,6 +225,26 @@ namespace SistemaBasico001.Controllers
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
+                IQueryable<Alunos_Turmas> AT = db.Alunos_Turmas.Where(at => at.IDTurma == id);
+                IQueryable<Materia_Turmas> MT = db.Materia_Turmas.Where(mt => mt.idTurma == id);
+                IQueryable<Professores_Turmas> PT = db.Professores_Turmas.Where(pt => pt.IDTurma == id);
+                IQueryable<nota> nt = db.nota.Where(NT => NT.IDTurma == id);
+                foreach (var pt in PT)
+                {
+                    db.Professores_Turmas.Remove(pt);
+                }
+                foreach (var mt in MT)
+                {
+                    db.Materia_Turmas.Remove(mt);
+                }
+                foreach (var at in AT)
+                {
+                    db.Alunos_Turmas.Remove(at);
+                }
+                foreach (var NT in nt)
+                {
+                    db.nota.Remove(NT);
+                }
                 turmas turmas = db.turmas.Find(id);
                 db.turmas.Remove(turmas);
                 db.SaveChanges();

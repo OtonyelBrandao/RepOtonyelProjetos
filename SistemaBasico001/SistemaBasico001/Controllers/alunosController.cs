@@ -92,7 +92,7 @@ namespace SistemaBasico001.Controllers
 
         }
         [HttpPost]
-        public ActionResult Details(int? Matricula)
+        public ActionResult Details(int? IDAluno)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
             {
@@ -117,26 +117,26 @@ namespace SistemaBasico001.Controllers
             }
             
         }
-        public ActionResult Details(alunos alunos)
-        {
-            if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
-            {
-                if (alunos == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                if (alunos == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(alunos);
-            }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+        //public ActionResult Details(alunos alunos)
+        //{
+        //    if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
+        //    {
+        //        if (alunos == null)
+        //        {
+        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //        }
+        //        if (alunos == null)
+        //        {
+        //            return HttpNotFound();
+        //        }
+        //        return View(alunos);
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Login", "Login");
+        //    }
             
-        }
+        //}
         public ActionResult Detalhes()
         {
                 if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
@@ -216,15 +216,15 @@ namespace SistemaBasico001.Controllers
 
         // GET: alunos/Edit/5
         [HttpPost]
-        public ActionResult Edit(int? Matricula)
+        public ActionResult Edit(int? IDAluno)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                if (Matricula == null)
+                if (IDAluno == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                alunos alunos = db.alunos.Find(Matricula);
+                alunos alunos = db.alunos.Find(IDAluno);
                 if (alunos == null)
                 {
                     return HttpNotFound();
@@ -280,15 +280,15 @@ namespace SistemaBasico001.Controllers
 
         // GET: alunos/Delete/5
         [HttpPost]
-        public ActionResult Delete(int? Matricula)
+        public ActionResult Delete(int? IDAluno)
         {
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
-                if (Matricula == null)
+                if (IDAluno == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                alunos alunos = db.alunos.Find(Matricula);
+                alunos alunos = db.alunos.Find(IDAluno);
                 if (alunos == null)
                 {
                     return HttpNotFound();

@@ -10,6 +10,7 @@
                 this.Nome = Nome;
                 this.Senha = Senha;
                 NA = 3;
+                this.Ativo = 1;
                 return admin;
             }
             else

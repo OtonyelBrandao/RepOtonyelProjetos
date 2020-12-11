@@ -21,6 +21,7 @@ namespace SistemaBasico001.Models
                         aluno_.Senha = Senha;
                         aluno_.NA = 1;
                         aluno_.id = al.IDAluno;
+                        aluno_.Ativo = Convert.ToInt32(al.Ativo);
                         return aluno_;
                     }
                 } 

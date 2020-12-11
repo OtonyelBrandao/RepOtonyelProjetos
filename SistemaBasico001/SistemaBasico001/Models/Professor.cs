@@ -22,6 +22,7 @@ namespace SistemaBasico001.Models
                     professor_.Senha = Senha;
                     professor_.NA = 2;
                     professor_.id = pf.IDProfessor;
+                    professor_.Ativo = Convert.ToInt32(pf.Ativo);
                     return professor_;
                 }
             }
