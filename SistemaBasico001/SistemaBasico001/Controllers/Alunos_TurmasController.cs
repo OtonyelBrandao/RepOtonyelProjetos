@@ -54,7 +54,7 @@ namespace SistemaBasico001.Controllers
                 {
                     db.Alunos_Turmas.Add(alunos_Turmas);
                     db.SaveChanges();
-                    return RedirectToAction("Details", "alunos");
+                    return RedirectToAction("Details","alunos",IDAluno);
                 }
                 ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "Numero", alunos_Turmas.IDTurma);
                 return View(alunos_Turmas);

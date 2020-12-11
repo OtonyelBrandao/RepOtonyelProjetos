@@ -1,12 +1,11 @@
-﻿using System;
+﻿using SistemaBasico001.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using SistemaBasico001.Models;
 
 namespace SistemaBasico001.Controllers
 {
@@ -17,7 +16,7 @@ namespace SistemaBasico001.Controllers
         // GET: alunos
         public ActionResult Index(int? Matricula, string nome)
         {
-           
+
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
             {
                 ViewBag.ColunaInativa = "bg-danger";
@@ -26,7 +25,7 @@ namespace SistemaBasico001.Controllers
                 {
                     return View(alunos.Where(a => a.Matricula == Matricula));
                 }
-                else if (!( nome == null))
+                else if (!(nome == null))
                 {
                     return View(alunos.Where(a => a.Nome.Contains(nome)));
                 }
@@ -46,44 +45,28 @@ namespace SistemaBasico001.Controllers
         }
 
         // GET: alunos/Details/5
-        //public ActionResult Details(int? IDAluno)
-        //{
-        //    if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 2)
-        //    {
-        //        if (IDAluno == null)
-        //        {
-        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //        }
-        //        alunos alunos = db.alunos.Find(IDAluno);
-        //        if (alunos == null)
-        //        {
-        //            return HttpNotFound();
-        //        }
-        //        return View(alunos);
-        //    }
-        //    else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
-        //    {
-        //        return RedirectToAction("Details", "alunos");
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Login", "Login");
-        //    }
-
-        //}
-        public ActionResult Details(alunos alunos)
+        public ActionResult Details(int? IDAluno, alunos alunos)
         {
-            if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
+
+            if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 1)
             {
                 if (alunos == null)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    if (IDAluno == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    alunos aluno = db.alunos.Find(IDAluno);
+                    if (aluno == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    return View(aluno);
                 }
-                if (alunos == null)
+                else
                 {
-                    return HttpNotFound();
+                    return View(alunos);
                 }
-                return View(alunos);
             }
             else
             {
@@ -91,6 +74,7 @@ namespace SistemaBasico001.Controllers
             }
 
         }
+
         [HttpPost]
         public ActionResult Details(int? IDAluno)
         {
@@ -115,47 +99,6 @@ namespace SistemaBasico001.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-            
-        }
-        //public ActionResult Details(alunos alunos)
-        //{
-        //    if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
-        //    {
-        //        if (alunos == null)
-        //        {
-        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //        }
-        //        if (alunos == null)
-        //        {
-        //            return HttpNotFound();
-        //        }
-        //        return View(alunos);
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Login", "Login");
-        //    }
-            
-        //}
-        public ActionResult Detalhes()
-        {
-                if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
-                {
-                    alunos alunos = db.alunos.Find(Convert.ToInt32(Session["id"]));
-                    if (Session["id"] == null)
-                    {
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
-                    if (alunos == null)
-                    {
-                        return HttpNotFound();
-                    }
-                    return RedirectToAction("Details", alunos);
-                }
-                else
-                {
-                    return RedirectToAction("Login", "Login");
-                }
         }
         // GET: alunos/Create
         public ActionResult Create()
@@ -176,7 +119,7 @@ namespace SistemaBasico001.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-            
+
         }
 
         // POST: alunos/Create
@@ -211,7 +154,7 @@ namespace SistemaBasico001.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-           
+
         }
 
         // GET: alunos/Edit/5
@@ -243,7 +186,7 @@ namespace SistemaBasico001.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-            
+
         }
 
         // POST: alunos/Edit/5
@@ -275,7 +218,7 @@ namespace SistemaBasico001.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-            
+
         }
 
         // GET: alunos/Delete/5
@@ -307,7 +250,7 @@ namespace SistemaBasico001.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-            
+
         }
 
         // POST: alunos/Delete/5
@@ -318,7 +261,7 @@ namespace SistemaBasico001.Controllers
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 alunos alunos = db.alunos.Find(Matricula);
-                if(alunos.Ativo == -1)
+                if (alunos.Ativo == -1)
                 {
                     alunos.Ativo = 1;
                 }
@@ -346,7 +289,7 @@ namespace SistemaBasico001.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-           
+
         }
 
         protected override void Dispose(bool disposing)
