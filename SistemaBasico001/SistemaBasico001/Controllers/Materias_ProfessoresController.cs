@@ -54,7 +54,7 @@ namespace SistemaBasico001.Controllers
                 {
                     db.Materias_Professores.Add(MP);
                     db.SaveChanges();
-                    return RedirectToAction("Index","professores");
+                    return RedirectToAction("Details", "Professores_Turmas", new { IDProfessor });
                 }
 
                 ViewBag.IDMateria = new SelectList(db.materias, "IdMateria", "Nome", MP.IDMateria);
@@ -181,9 +181,10 @@ namespace SistemaBasico001.Controllers
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 Materias_Professores materias_Professores = db.Materias_Professores.Find(id);
+                int IDProfessor = materias_Professores.IDProfessor;
                 db.Materias_Professores.Remove(materias_Professores);
                 db.SaveChanges();
-                return RedirectToAction("Details","Professores_Turmas");
+                return RedirectToAction("Details", "Professores_Turmas", new { IDProfessor });
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {

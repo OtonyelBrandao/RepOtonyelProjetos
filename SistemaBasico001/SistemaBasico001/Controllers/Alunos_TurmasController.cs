@@ -50,11 +50,12 @@ namespace SistemaBasico001.Controllers
             alunos_Turmas.IDAlunoTurma = 0;
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
+                ViewBag.IDAluno = IDAluno;
                 if (ModelState.IsValid)
                 {
                     db.Alunos_Turmas.Add(alunos_Turmas);
                     db.SaveChanges();
-                    return RedirectToAction("Details","alunos",IDAluno);
+                    return RedirectToAction("Details", "alunos",new {IDAluno});
                 }
                 ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "Numero", alunos_Turmas.IDTurma);
                 return View(alunos_Turmas);
@@ -178,9 +179,10 @@ namespace SistemaBasico001.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Alunos_Turmas alunos_Turmas = db.Alunos_Turmas.Find(id);
+            int IDaluno = alunos_Turmas.IDAluno;
             db.Alunos_Turmas.Remove(alunos_Turmas);
             db.SaveChanges();
-            return RedirectToAction("Details","alunos");
+            return RedirectToAction("Details","alunos",new { IDaluno});
         }
 
         protected override void Dispose(bool disposing)

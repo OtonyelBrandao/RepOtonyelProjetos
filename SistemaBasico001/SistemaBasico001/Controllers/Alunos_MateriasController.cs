@@ -51,7 +51,7 @@ namespace SistemaBasico001.Controllers
                 {
                     db.Alunos_Materias.Add(AT);
                     db.SaveChanges();
-                    return RedirectToAction("Details", "alunos");
+                    return RedirectToAction("Details", "alunos",new {IDAluno});
                 }
 
                 ViewBag.Materia = new SelectList(db.materias, "IdMateria", "Nome", AT.IDMateria);
@@ -175,9 +175,10 @@ namespace SistemaBasico001.Controllers
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 Alunos_Materias alunos_Materias = db.Alunos_Materias.Find(id);
+                int IDAluno = alunos_Materias.IDAluno;
                 db.Alunos_Materias.Remove(alunos_Materias);
                 db.SaveChanges();
-                return RedirectToAction("Details", "alunos");
+                return RedirectToAction("Details", "alunos",new { IDAluno});
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {

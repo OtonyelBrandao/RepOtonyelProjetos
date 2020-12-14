@@ -47,7 +47,8 @@ namespace SistemaBasico001.Controllers
         // GET: alunos/Details/5
         public ActionResult Details(int? IDAluno, alunos alunos)
         {
-
+            if (alunos.Nome == null)
+                alunos = null;
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 1)
             {
                 if (alunos == null)

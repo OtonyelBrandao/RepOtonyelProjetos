@@ -146,7 +146,7 @@ namespace SistemaBasico001.Controllers
                     db.Professores_Turmas.Add(PT);
                     db.SaveChanges();
                     professores P = db.professores.Find(IDProfessor);
-                    return RedirectToAction("Index","professores");
+                    return RedirectToAction("Details","Professores_Turmas", new { IDProfessor });
                 }
                 ViewBag.IDTurma = new SelectList(db.turmas, "Numero", "ano", PT.IDTurma);
                 return View(PT);
@@ -272,9 +272,10 @@ namespace SistemaBasico001.Controllers
             if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
             {
                 Professores_Turmas professores_Alunos = db.Professores_Turmas.Find(id);
+                int IDProfessor = professores_Alunos.IDProfessor;
                 db.Professores_Turmas.Remove(professores_Alunos);
                 db.SaveChanges();
-                return RedirectToAction("Index","professores");
+                return RedirectToAction("Details", "Professores_Turmas", new { IDProfessor });
             }
             else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 2)
             {
