@@ -66,7 +66,7 @@
                         <td>@Html.DisplayFor(modelItem => item.turmas.Numero)</td>
                         <td>@Html.DisplayFor(modelItem => item.turmas.ano)</td>
                         <td>
-                            @Html.ActionLink("Detalhes", "Details", "turmas", new { id = item.turmas.Numero }, new { @class = "btn btn-success" })
+                            @Html.ActionLink("Detalhes", "Details", "turmas", new { id = item.turmas.IDTurma }, new { @class = "btn btn-success" })
                             @if (Convert.ToInt32(Session["NivelDeAcesso"]) == 3)
                             {
                                 @Html.ActionLink("Deletar", "Delete", "Professores_Turmas", new { id = item.IDProfessorTurma }, new { @class = "btn btn-danger" })

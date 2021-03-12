@@ -50,7 +50,8 @@
                     }
                     else if (Convert.ToInt32(Session["NivelDeAcesso"]) == 1)
                     {
-                        <li>@Html.ActionLink("Aluno", "Detalhes", "alunos")</li>
+                        int IDAluno = Convert.ToInt32(Session["id"]);
+                        <li>@Html.ActionLink("Aluno", "DetailsVoid", "alunos")</li>
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

@@ -135,6 +135,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\materiasController.cs" />
     <Compile Include="Controllers\Materias_ProfessoresController.cs" />
+    <Compile Include="Controllers\Materia_TurmasController.cs" />
     <Compile Include="Controllers\notasController.cs" />
     <Compile Include="Controllers\professoresController.cs" />
     <Compile Include="Controllers\Professores_TurmasController.cs" />
@@ -293,6 +294,8 @@
     <Content Include="Views\notas\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutSemBarrraDeNavegacao.cshtml" />
     <Content Include="Views\materias\Edit.cshtml" />
+    <Content Include="Views\Materia_Turmas\Create.cshtml" />
+    <Content Include="Views\Materia_Turmas\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -48,7 +48,10 @@ namespace SistemaBasico001.Controllers
         public ActionResult Details(int? IDAluno, alunos alunos)
         {
             if (alunos.Nome == null)
+            {
                 alunos = null;
+            }
+
             if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 1)
             {
                 if (alunos == null)
@@ -74,6 +77,28 @@ namespace SistemaBasico001.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
+        }
+        public ActionResult DetailsVoid()
+        {
+            if (Convert.ToInt32(Session["NivelDeAcesso"]) >= 1)
+            {
+                alunos aluno = db.alunos.Find(Convert.ToInt32(Session["id"]));
+                if (aluno == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                if (aluno == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return RedirectToAction("Details",aluno);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
         }
 
         [HttpPost]

@@ -10,10 +10,13 @@ namespace SistemaBasico001.Models
             Aluno aluno_ = new Aluno();
             var als = db.alunos;
             
+            
             if (int.TryParse(Senha, out int i))
             {
                 foreach (var al in als)
                 {
+                    if (al.Email == null)
+                        al.Email = "";
                     if ((Nome.Trim().ToUpper() == al.Nome.Trim().ToUpper() && Senha.Trim().ToUpper() == Convert.ToString(al.Matricula).Trim().ToUpper())
                         || Nome.Trim().ToUpper() == al.Email.Trim().ToUpper() && Senha.Trim().ToUpper() == Convert.ToString(al.Matricula).Trim().ToUpper())
                     {
