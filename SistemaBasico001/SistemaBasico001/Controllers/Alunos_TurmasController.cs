@@ -32,8 +32,7 @@ namespace SistemaBasico001.Controllers
             else
             {
                 return RedirectToAction("Login", "Login");
-            }
-            
+            }       
         }
 
         // POST: Alunos_Turmas/Create

@@ -6,11 +6,8 @@
     SistemaBasico001Entities db = new SistemaBasico001Entities();
     int turma = Convert.ToInt32(Session["IDAIU"]);
     IQueryable<Alunos_Turmas> AT = db.Alunos_Turmas.Where(p => p.IDTurma == turma);
-    IQueryable<Professores_Alunos> PT = db.Professores_Alunos.Where(p => p.IDTurma == turma);
+    IQueryable<Professores_Turmas> PT = db.Professores_Turmas.Where(p => p.IDTurma == turma);
 }
-
-
-
 <div>
     <h4>Turmas</h4>
     <hr />

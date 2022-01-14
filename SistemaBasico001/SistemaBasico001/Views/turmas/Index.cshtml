@@ -32,13 +32,13 @@
                 @Html.DisplayFor(modelItem => item.ano)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Numero }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Editar", "Edit", new { id = item.IDTurma }, new { @class = "btn btn-primary" })
             </td>
             <td>
-                @Html.ActionLink("Detalhes", "Details", new { id = item.Numero }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Detalhes", "Details", new { id = item.IDTurma }, new { @class = "btn btn-success" })
             </td>
             <td>
-                @Html.ActionLink("Deletar", "Delete", new { id = item.Numero }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Deletar", "Delete", new { id = item.IDTurma }, new { @class = "btn btn-danger" })
             </td>
         </tr>
     }
