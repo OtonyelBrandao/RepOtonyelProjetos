@@ -9,7 +9,7 @@
     nt.IDTurma = Convert.ToInt32(ViewBag.IDTurma);
     materias mate;
     IQueryable<SistemaBasico001.Models.materias> materia = (IQueryable<SistemaBasico001.Models.materias>)ViewData["materias"];
-    IQueryable<Alunos_Materias> AM = db.Alunos_Materias.Where(am => am.alunos.Matricula == Model.Matricula );
+    IQueryable<Alunos_Materias> AM = db.Alunos_Materias.Where(am => am.alunos.Matricula == Model.Matricula);
     IQueryable<Materia_Turmas> MT = db.Materia_Turmas.Where(mt => mt.idTurma == nt.IDTurma);
     IQueryable<nota> notas = db.nota.Where(n => n.IDAluno == Model.Matricula && n.IDTurma == nt.IDTurma);
     ViewBag.Title = "Details";
@@ -22,7 +22,7 @@
                           tu.idTurma == nt.IDTurma
                           select mt;
     var notasDoAluno = from nta in db.nota
-                       select nta ;
+                       select nta;
 }
 
 <h2>Details</h2>
@@ -45,7 +45,7 @@
                     <dd>@Html.DisplayFor(model => model.Email)</dd>
                 </dl>
                 <br />
-                @Html.ActionLink("Adicionar nota","Create","",new { @class = "btn btn-primary"})
+                @Html.ActionLink("Adicionar nota", "Create", "", new { @class = "btn btn-primary" })
                 <table class="table table-bordered">
                     <tr>
                         <th class="Center">
@@ -62,28 +62,44 @@
                     {
                         //double[] Total = new double[5] ;
                         //double total;
-                    <tr>
-                        @*@item.materias.Materia_Turmas.Where(mt => mt.idTurma == nt.IDTurma)*@
-                        <td class="Center">@item.materias.Nome</td>
-
-                        @foreach (var item2 in notasDoAluno)
-                        {
-                            if (item.materias.IdMateria == item2.IDMateria && Model.IDAluno == item2.IDAluno)
-                            {
-                                <td>@item2.Nota1</td>
+                        <tr>
+                            @{
+                                int count = 6;
+                                int current = 1;
+                                float Total = 0;
                             }
-                        }
+                            @*@item.materias.Materia_Turmas.Where(mt => mt.idTurma == nt.IDTurma)*@
+                            <td class="Center">@item.materias.Nome</td>
 
-                        @*<td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>*@
-                        @*@foreach (var item1 in n){
-        <td>@item.nota</td>
-        Total[] = @item.nota
-        }*@
-                    </tr>
+                            @foreach (var item2 in notasDoAluno)
+                            {
+                                if (item.materias.IdMateria == item2.IDMateria && Model.IDAluno == item2.IDAluno)
+                                {
+                                    <td>@item2.Nota1</td>
+                                    Total += item2.Nota1;
+                                    current++;
+                                }
+                            }
+                            @while (count >= current)
+                            {
+                                if (current == 6)
+                                {
+                                    <td>@Total</td>
+                                }
+                                <td></td>
+                                current++;
+                            }
+
+                            @*<td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>*@
+                            @*@foreach (var item1 in n){
+                                <td>@item.nota</td>
+                                Total[] = @item.nota
+                                }*@
+                        </tr>
                     }
                 </table>
             </div>
