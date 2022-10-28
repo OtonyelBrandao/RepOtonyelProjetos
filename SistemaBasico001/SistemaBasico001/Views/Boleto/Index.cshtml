@@ -1,0 +1,127 @@
+﻿@model List<SistemaBasico001.Models.Boleto>
+@{
+    ViewBag.Title = "Financeiro";
+}
+<h2 style="font-family:Bahnschrift;">
+    Histórico Financeiro Do Aluno
+</h2>
+<hr />
+<div style="font-family: Bahnschrift; margin-top: 5px; margin-bottom: 10px; line-height: 13px;">
+    <label>Matricula:</label>
+    @ViewBag.Matricula<br />
+    <label>Nome:</label>
+    @ViewBag.Nome<br />
+    <label>Curso:</label>
+    @ViewBag.Curso<br />
+</div>
+<div style="padding:1px;margin:0px;min-width:1050px;border:1px solid rgba(0,0,0,0.35);">
+    <table class="table table-bordered" style="margin: 0px;border-bottom:3px solid rgba(0,0,0,0.25);">
+        <tr style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+            <th width="122">
+                Status
+            </th>
+            <th width="122">
+                DT.Vencimento
+            </th>
+            <th width="122">
+                DT.Pagamento
+            </th>
+            <th width="122">
+                Valor
+            </th>
+            <th width="122">
+                Multa
+            </th>
+            <th width="122">
+                Desconto
+            </th>
+            <th width="122">
+                Valor Pago
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </table>
+    <div class="customScroll001" style="height: 373px; overflow: auto; padding: 0px;">
+        <table class="table table-bordered">
+            @foreach (var item in Model)
+            {
+                string dataVenc = string.Format("{0:dd/MM/yyy}", item.DataVencimento);
+                string dataPG = string.Format("{0:dd/MM/yyy}", item.DataPagamento);
+                string status = " ";
+                string corLinha = " ";
+                string corbotao = "color:rgba(0,100,0,1);border:1px solid rgba(0,100,0,1);";
+                switch (item.Status.ToUpper())
+                {
+                    case "P":
+                        status = "Pago";
+                        corLinha = "background:rgba(0,170,0,0.518);color:rgba(0,100,0,1);";
+                        corbotao = "color:rgba(0,100,0,1);border:1px solid rgba(0,100,0,1);";
+                        break;
+                    case "E":
+                        status = "Em átraso";
+                        corLinha = "background:rgba(183,0,0,0.518);color:rgba(130,0,0,1);";
+                        break;
+                    case "C":
+                        status = "Cancelado";
+                        corLinha = "background:rgba(240,240,0,0.328);color:rgba(160,160,0,1);";
+                        corbotao = "color:rgba(160,160,0,1);border:1px solid rgba(160,160,0,1);";
+                        break;
+                    case "D":
+                        status = "Em dia";
+                        break;
+                }
+                <tr style="font-family: Bahnschrift;">
+                    <td width="122" style="@corLinha">
+                        @Html.DisplayFor(modelItem => status)
+                    </td>
+                    <td width="122" style="@corLinha">
+                        @Html.DisplayFor(modelItem => dataVenc)
+                    </td>
+                    <td width="122" style="@corLinha">
+                        @Html.DisplayFor(modelItem => dataPG)
+                    </td>
+                    <td width="122" style="@corLinha">
+                        @Html.DisplayFor(modelItem => item.Valor)
+                    </td>
+                    <td width="122" style="@corLinha">
+                        @Html.DisplayFor(modelItem => item.Multa)
+                    </td>
+                    <td width="122" style="@corLinha">
+                        @Html.DisplayFor(modelItem => item.Desconto)
+                    </td>
+                    <td width="122" style="@corLinha">
+                        @Html.DisplayFor(modelItem => item.ValorPago)
+                    </td>
+                    <td>
+                        @if (item.Status.ToLower() != "p" && item.Status.ToLower() != "c")
+                        {
+                            if (item.Status.ToLower() == "e")
+                            {
+                                <center>
+                                    @Html.ActionLink("Pagar", "Details", new { id = item.Id }, new { @class = "btn btn-danger", @style = "width:150px;" })
+                                </center>
+                            }
+                            else
+                            {
+                                <center>
+                                    @Html.ActionLink("Pagar", "Details", new { id = item.Id }, new { @class = "btn btn-success", @style = "width:150px;" })
+                                </center>
+                            }
+                        }
+                        else
+                        {
+                            <center>
+                                <span style="text-decoration:none;width:150px;display:block;border-radius:5px;padding:5px;cursor:text;@corbotao">
+                                    Pagar
+                                </span>
+                            </center>
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

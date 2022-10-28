@@ -12,7 +12,7 @@
     IQueryable<Alunos_Materias> AM = db.Alunos_Materias.Where(am => am.alunos.Matricula == Model.Matricula);
     IQueryable<Materia_Turmas> MT = db.Materia_Turmas.Where(mt => mt.idTurma == nt.IDTurma);
     IQueryable<nota> notas = db.nota.Where(n => n.IDAluno == Model.Matricula && n.IDTurma == nt.IDTurma);
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes";
     Layout = null;
     var materias = ViewBag.Materias;
     var materiasDoAluno = from mt in db.Alunos_Materias
@@ -25,7 +25,7 @@
                        select nta;
 }
 
-<h2>Details</h2>
+<h2>Detalhes</h2>
 
 <div class="container">
     <div class="modal-dialog">

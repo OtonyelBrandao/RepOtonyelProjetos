@@ -30,6 +30,11 @@
         <AssociationConnector Association="SistemaBasico001Model.FK_Materias_Professores_Materias_Professores" />
         <AssociationConnector Association="SistemaBasico001Model.FK_Professores_Turmas_Professores_Turmas" />
         <AssociationConnector Association="SistemaBasico001Model.FK_Professores_Turmas_turmas" />
+        <EntityTypeShape EntityType="SistemaBasico001Model.Boleto" Width="1.5" PointX="4" PointY="0.5" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Boleto_alunos" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_nota_alunos" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_Boleto_materias" />
+        <AssociationConnector Association="SistemaBasico001Model.FK_nota_turmas" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

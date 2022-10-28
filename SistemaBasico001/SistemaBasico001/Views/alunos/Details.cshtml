@@ -2,7 +2,7 @@
 @model SistemaBasico001.Models.alunos
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes";
     string Nascimento = string.Format("{0:dd/MM/yyyy}", Model.Nascimento);
     SistemaBasico001Entities db = new SistemaBasico001Entities();
     IQueryable<Alunos_Materias> AM = db.Alunos_Materias.Where(l => l.alunos.IDAluno == Model.IDAluno);
@@ -10,7 +10,7 @@
 
 }
 
-<h2>Details</h2>
+<h2>Detalhes</h2>
 
 <div>
     <h4>alunos</h4>

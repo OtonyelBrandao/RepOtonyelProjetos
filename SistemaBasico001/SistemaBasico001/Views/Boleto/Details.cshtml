@@ -1,0 +1,162 @@
+﻿@model SistemaBasico001.Models.Boleto
+@{
+    ViewBag.Title = "Financeiro";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <h2 style="font-family:Bahnschrift;">
+        Histórico Financeiro Do Aluno
+    </h2>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    <div class="form-group col-md-6">
+        <label class="control-label col-md-5" for="DataVencimento">DataVencimento</label>
+        <div class="col-md-7">
+            <input class="form-control text-box single-line valid"
+                   id="DataVencimento" name="DataVencimento" type="text" value="@Model.DataVencimento.ToString("dd/MM/yyyy")">
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label class="control-label col-md-5" for="DataPagamento">DataPagamento</label>
+        <div class="col-md-7">
+            <input class="form-control text-box single-line valid"
+                   id="DataPagamento" name="DataPagamento" type="date">
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label class="control-label col-md-5" for="Valor">Valor Mensaidade</label>
+        <div class="col-md-7">
+            <input class="form-control text-box single-line input-validation-error"
+                   id="Valor" name="Valor" onkeypress="return onlynumber();" pattern="^\d*(,?\.?\d{0,2})?$"
+                   type="text" value="@Model.Valor">
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label class="control-label col-md-5" for="Valor">Multa</label>
+        <div class="col-md-7">
+            <input class="form-control text-box single-line input-validation-error" pattern="^\d*(,?\.?\d{0,2})?$"
+                   id="Multa" name="Multa" type="text" value="@Model.Multa.ToString()" onkeypress="return onlynumber();">
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label class="control-label col-md-5" for="Valor">Desconto</label>
+        <div class="col-md-7">
+            <input class="form-control text-box single-line input-validation-error"
+                   pattern="^\d*(,?\.?\d{0,2})?$" id="Desconto" name="Desconto" type="text" value="@Model.Desconto.ToString()"
+                   onkeypress="return onlynumber();">
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label class="control-label col-md-5" for="Valor">Total a Pagar</label>
+        <div class="col-md-7">
+            <input class="form-control text-box single-line input-validation-error"
+                   id="TotalPagar" name="TotalPagar" type="text" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="col-md-offset-1" style="margin-top:50px;">
+                <button type="submit" class="btn btn-success">
+                    Ok
+                </button>
+                @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-default" });
+                @*@Html.ActionLink("Voltar", "Index", new {IDAluno = Model.IDAluno,IDMateria = Model.IDMateria}, new { @class = "btn btn-default" });*@
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" defer>
+        $("#DataPagamento").val('@DateTime.Now.Date.ToString("yyyy-MM-dd")');
+        formatarValorzero("#Valor");
+        formatarValorzero("#Multa");
+        formatarValorzero("#Desconto");
+        @*$("#DataVencimento").val('@Model.DataVencimento.ToString("yyyy-MM-dd")');*@
+    CarregarTotalPagar();
+    $("#Desconto").on("keyup", function () {
+        CarregarTotalPagar();
+    });
+    $("#Multa").on("keyup", function () {
+        CarregarTotalPagar();
+    });
+    $("#Valor").on("keyup", function () {
+        CarregarTotalPagar();
+    });
+        $(document).on('keypress', 'input[pattern]', function (e) {
+            var input = $(this);
+            var oldVal = input.val();
+            var regex = new RegExp(input.attr('pattern'), 'g');
+
+            setTimeout(function () {
+                var newVal = input.val();
+                if (!regex.test(newVal)) {
+                    input.val(oldVal);
+                }
+            }, 0);
+        });
+    function CarregarTotalPagar() {
+        var TotalPagar = StringToFloat($("#Valor").val()) + StringToFloat($("#Multa").val()) - StringToFloat($("#Desconto").val());
+        console.log(StringToFloat($("#Valor").val()));
+        console.log(StringToFloat($("#Multa").val()));
+        console.log(StringToFloat($("#Desconto").val()));
+        console.log(TotalPagar.toFixed(2));
+
+        StringToFloat($("#Valor").val());
+        StringToFloat($("#Multa").val());
+        StringToFloat($("#Desconto").val());
+        $("#TotalPagar").val("R$ "+TotalPagar.toFixed(2).toString().replace(".", ","));
+    }
+    function StringToFloat(val) {
+        var valor = val.toString();
+        val = valor.replace(",", ".");
+        if (isNaN(val) || val == ""){
+            val = 0;
+        }
+        return parseFloat(val);
+        }
+        function formatarValorzero(id) {
+            var element = $(id.toString());
+            if (StringToFloat(element.val()) == 0) {
+                element.val("0,00")
+            }
+        }
+    function onlynumber(evt) {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode(key);
+        var regex = /^[0-9.,]+$/;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+    //function LimitarCasas(elementId) {
+    //    var element = $(elementId.toString());
+    //    if (isNaN(element.val())) {
+    //        element.val(
+    //            parseFloat(
+    //                element.val().toString().replace(",", ".")
+    //            )
+    //                .toFixed(2)
+    //                .toString()
+    //                .replace(".", ",")
+    //        );
+    //    }
+    //}
+    @*var dataPag = document.getElementById("DataPagamento");
+    dataPag.innerText = '@DateTime.Now.Date.ToString("dd/MM/yyyy")';
+    dataPag.nodeValue = '@DateTime.Now.Date.ToString("dd/MM/yyyy")';*@
+    @*dataPag.setAttribute("value", '@DateTime.Now.Date.ToString("dd/MM/yyyy")');*@
+    /*console.log(dataPag);*/
+    //$("#DataPagamento").on("change", function () {
+    //    console.log($("#DataPagamento"))
+    //});
+    </script>
+}

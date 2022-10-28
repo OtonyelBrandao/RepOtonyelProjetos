@@ -15,6 +15,7 @@
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="Ativo" Type="int" />
           <Property Name="IDAluno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataVencBoleto" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Alunos_Materias">
           <Key>
@@ -39,6 +40,21 @@
           <Property Name="IDAlunoTurma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IDAluno" Type="int" Nullable="false" />
           <Property Name="IDTurma" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Boleto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataVencimento" Type="date" Nullable="false" />
+          <Property Name="Valor" Type="float" Nullable="false" />
+          <Property Name="DataPagamento" Type="date" />
+          <Property Name="IDMateria" Type="int" Nullable="false" />
+          <Property Name="IDAluno" Type="int" Nullable="false" />
+          <Property Name="Status" Type="nchar" MaxLength="1" />
+          <Property Name="ValorPago" Type="float" />
+          <Property Name="Multa" Type="float" />
+          <Property Name="Desconto" Type="float" />
         </EntityType>
         <EntityType Name="Materia_Turmas">
           <Key>
@@ -175,7 +191,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Alunos_Turmas_turmas">
+        <Association Name="FK_Alunos_Turmas_Alunos_Turmas1">
           <End Role="turmas" Type="Self.turmas" Multiplicity="1" />
           <End Role="Alunos_Turmas" Type="Self.Alunos_Turmas" Multiplicity="*" />
           <ReferentialConstraint>
@@ -184,6 +200,30 @@
             </Principal>
             <Dependent Role="Alunos_Turmas">
               <PropertyRef Name="IDTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Boleto_alunos">
+          <End Role="alunos" Type="Self.alunos" Multiplicity="1" />
+          <End Role="Boleto" Type="Self.Boleto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="IDAluno" />
+            </Principal>
+            <Dependent Role="Boleto">
+              <PropertyRef Name="IDAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Boleto_materias">
+          <End Role="materias" Type="Self.materias" Multiplicity="1" />
+          <End Role="Boleto" Type="Self.Boleto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="Boleto">
+              <PropertyRef Name="IDMateria" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -196,18 +236,6 @@
             </Principal>
             <Dependent Role="Materia_Turmas">
               <PropertyRef Name="idMateria" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Materia_Turmas_turmas">
-          <End Role="turmas" Type="Self.turmas" Multiplicity="1" />
-          <End Role="Materia_Turmas" Type="Self.Materia_Turmas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="turmas">
-              <PropertyRef Name="IDTurma" />
-            </Principal>
-            <Dependent Role="Materia_Turmas">
-              <PropertyRef Name="idTurma" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -235,6 +263,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_nota_alunos">
+          <End Role="alunos" Type="Self.alunos" Multiplicity="1" />
+          <End Role="nota" Type="Self.nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="IDAluno" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_nota_materias">
           <End Role="materias" Type="Self.materias" Multiplicity="1" />
           <End Role="nota" Type="Self.nota" Multiplicity="*" />
@@ -244,6 +284,18 @@
             </Principal>
             <Dependent Role="nota">
               <PropertyRef Name="IDMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nota_turmas">
+          <End Role="turmas" Type="Self.turmas" Multiplicity="1" />
+          <End Role="nota" Type="Self.nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="IDTurma" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDTurma" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -271,11 +323,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="SistemaBasico001ModelStoreContainer">
           <EntitySet Name="alunos" EntityType="Self.alunos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Alunos_Materias" EntityType="Self.Alunos_Materias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Alunos_Professores" EntityType="Self.Alunos_Professores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Alunos_Turmas" EntityType="Self.Alunos_Turmas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Boleto" EntityType="Self.Boleto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materia_Turmas" EntityType="Self.Materia_Turmas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="materias" EntityType="Self.materias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materias_Professores" EntityType="Self.Materias_Professores" Schema="dbo" store:Type="Tables" />
@@ -304,16 +388,20 @@
             <End Role="alunos" EntitySet="alunos" />
             <End Role="Alunos_Turmas" EntitySet="Alunos_Turmas" />
           </AssociationSet>
-          <AssociationSet Name="FK_Alunos_Turmas_turmas" Association="Self.FK_Alunos_Turmas_turmas">
+          <AssociationSet Name="FK_Alunos_Turmas_Alunos_Turmas1" Association="Self.FK_Alunos_Turmas_Alunos_Turmas1">
             <End Role="turmas" EntitySet="turmas" />
             <End Role="Alunos_Turmas" EntitySet="Alunos_Turmas" />
           </AssociationSet>
+          <AssociationSet Name="FK_Boleto_alunos" Association="Self.FK_Boleto_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="Boleto" EntitySet="Boleto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Boleto_materias" Association="Self.FK_Boleto_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="Boleto" EntitySet="Boleto" />
+          </AssociationSet>
           <AssociationSet Name="FK_Materia_Turmas_materias" Association="Self.FK_Materia_Turmas_materias">
             <End Role="materias" EntitySet="materias" />
-            <End Role="Materia_Turmas" EntitySet="Materia_Turmas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Materia_Turmas_turmas" Association="Self.FK_Materia_Turmas_turmas">
-            <End Role="turmas" EntitySet="turmas" />
             <End Role="Materia_Turmas" EntitySet="Materia_Turmas" />
           </AssociationSet>
           <AssociationSet Name="FK_Materias_Professores_materias" Association="Self.FK_Materias_Professores_materias">
@@ -324,8 +412,16 @@
             <End Role="professores" EntitySet="professores" />
             <End Role="Materias_Professores" EntitySet="Materias_Professores" />
           </AssociationSet>
+          <AssociationSet Name="FK_nota_alunos" Association="Self.FK_nota_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
           <AssociationSet Name="FK_nota_materias" Association="Self.FK_nota_materias">
             <End Role="materias" EntitySet="materias" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nota_turmas" Association="Self.FK_nota_turmas">
+            <End Role="turmas" EntitySet="turmas" />
             <End Role="nota" EntitySet="nota" />
           </AssociationSet>
           <AssociationSet Name="FK_Professores_Turmas_Professores_Turmas" Association="Self.FK_Professores_Turmas_Professores_Turmas">
@@ -406,7 +502,54 @@
             <End Role="turmas" EntitySet="turmas" />
             <End Role="Professores_Turmas" EntitySet="Professores_Turmas" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="Boleto" EntityType="SistemaBasico001Model.Boleto" />
+          <AssociationSet Name="FK_Boleto_alunos" Association="SistemaBasico001Model.FK_Boleto_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="Boleto" EntitySet="Boleto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nota_alunos" Association="SistemaBasico001Model.FK_nota_alunos">
+            <End Role="alunos" EntitySet="alunos" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Boleto_materias" Association="SistemaBasico001Model.FK_Boleto_materias">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="Boleto" EntitySet="Boleto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nota_turmas" Association="SistemaBasico001Model.FK_nota_turmas">
+            <End Role="turmas" EntitySet="turmas" />
+            <End Role="nota" EntitySet="nota" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          </EntityContainer>
         <EntityType Name="alunos">
           <Key>
             <PropertyRef Name="IDAluno" />
@@ -420,6 +563,8 @@
           <NavigationProperty Name="Alunos_Materias" Relationship="SistemaBasico001Model.FK_Alunos_Materias_alunos" FromRole="alunos" ToRole="Alunos_Materias" />
           <NavigationProperty Name="Alunos_Professores" Relationship="SistemaBasico001Model.FK_Alunos_Professores_alunos" FromRole="alunos" ToRole="Alunos_Professores" />
           <NavigationProperty Name="Alunos_Turmas" Relationship="SistemaBasico001Model.FK_Alunos_Turmas_alunos" FromRole="alunos" ToRole="Alunos_Turmas" />
+          <NavigationProperty Name="Boleto" Relationship="SistemaBasico001Model.FK_Boleto_alunos" FromRole="alunos" ToRole="Boleto" />
+          <NavigationProperty Name="nota" Relationship="SistemaBasico001Model.FK_nota_alunos" FromRole="alunos" ToRole="nota" />
         </EntityType>
         <EntityType Name="Alunos_Materias">
           <Key>
@@ -472,6 +617,7 @@
           <NavigationProperty Name="Materia_Turmas" Relationship="SistemaBasico001Model.FK_Materia_Turmas_materias" FromRole="materias" ToRole="Materia_Turmas" />
           <NavigationProperty Name="Materias_Professores" Relationship="SistemaBasico001Model.FK_Materias_Professores_materias" FromRole="materias" ToRole="Materias_Professores" />
           <NavigationProperty Name="nota" Relationship="SistemaBasico001Model.FK_nota_materias" FromRole="materias" ToRole="nota" />
+          <NavigationProperty Name="Boleto" Relationship="SistemaBasico001Model.FK_Boleto_materias" FromRole="materias" ToRole="Boleto" />
         </EntityType>
         <EntityType Name="Materias_Professores">
           <Key>
@@ -497,6 +643,8 @@
           <Property Name="IDTurma" Type="Int32" Nullable="false" />
           <Property Name="IDMateria" Type="Int32" Nullable="false" />
           <NavigationProperty Name="materias" Relationship="SistemaBasico001Model.FK_nota_materias" FromRole="nota" ToRole="materias" />
+          <NavigationProperty Name="alunos" Relationship="SistemaBasico001Model.FK_nota_alunos" FromRole="nota" ToRole="alunos" />
+          <NavigationProperty Name="turmas" Relationship="SistemaBasico001Model.FK_nota_turmas" FromRole="nota" ToRole="turmas" />
         </EntityType>
         <EntityType Name="professores">
           <Key>
@@ -542,6 +690,7 @@
           <NavigationProperty Name="Alunos_Turmas" Relationship="SistemaBasico001Model.FK_Alunos_Turmas_turmas" FromRole="turmas" ToRole="Alunos_Turmas" />
           <NavigationProperty Name="Materia_Turmas" Relationship="SistemaBasico001Model.FK_Materia_Turmas_turmas" FromRole="turmas" ToRole="Materia_Turmas" />
           <NavigationProperty Name="Professores_Turmas" Relationship="SistemaBasico001Model.FK_Professores_Turmas_turmas" FromRole="turmas" ToRole="Professores_Turmas" />
+          <NavigationProperty Name="nota" Relationship="SistemaBasico001Model.FK_nota_turmas" FromRole="turmas" ToRole="nota" />
         </EntityType>
         <Association Name="FK_Alunos_Materias_alunos">
           <End Type="SistemaBasico001Model.alunos" Role="alunos" Multiplicity="1" />
@@ -699,6 +848,71 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Boleto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataVencimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Valor" Type="Double" Nullable="false" />
+          <Property Name="DataPagamento" Type="DateTime" Precision="0" />
+          <Property Name="IDMateria" Type="Int32" Nullable="false" />
+          <Property Name="IDAluno" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="alunos" Relationship="SistemaBasico001Model.FK_Boleto_alunos" FromRole="Boleto" ToRole="alunos" />
+          <NavigationProperty Name="materias" Relationship="SistemaBasico001Model.FK_Boleto_materias" FromRole="Boleto" ToRole="materias" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="ValorPago" Type="Double" />
+          <Property Name="Multa" Type="Double" />
+          <Property Name="Desconto" Type="Double" />
+        </EntityType>
+        <Association Name="FK_Boleto_alunos">
+          <End Type="SistemaBasico001Model.alunos" Role="alunos" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Boleto" Role="Boleto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="IDAluno" />
+            </Principal>
+            <Dependent Role="Boleto">
+              <PropertyRef Name="IDAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nota_alunos">
+          <End Type="SistemaBasico001Model.alunos" Role="alunos" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.nota" Role="nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alunos">
+              <PropertyRef Name="IDAluno" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Boleto_materias">
+          <End Type="SistemaBasico001Model.materias" Role="materias" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.Boleto" Role="Boleto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="Boleto">
+              <PropertyRef Name="IDMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nota_turmas">
+          <End Type="SistemaBasico001Model.turmas" Role="turmas" Multiplicity="1" />
+          <End Type="SistemaBasico001Model.nota" Role="nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="turmas">
+              <PropertyRef Name="IDTurma" />
+            </Principal>
+            <Dependent Role="nota">
+              <PropertyRef Name="IDTurma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -827,6 +1041,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Boleto">
+            <EntityTypeMapping TypeName="SistemaBasico001Model.Boleto">
+              <MappingFragment StoreEntitySet="Boleto">
+                <ScalarProperty Name="Desconto" ColumnName="Desconto" />
+                <ScalarProperty Name="Multa" ColumnName="Multa" />
+                <ScalarProperty Name="ValorPago" ColumnName="ValorPago" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IDAluno" ColumnName="IDAluno" />
+                <ScalarProperty Name="IDMateria" ColumnName="IDMateria" />
+                <ScalarProperty Name="DataPagamento" ColumnName="DataPagamento" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="DataVencimento" ColumnName="DataVencimento" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="SistemaBasico001Model.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="SistemaBasico001Model.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="SistemaBasico001Model.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="SistemaBasico001Model.Store.sp_helpdiagramdefinition" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="SistemaBasico001Model.Store.sp_helpdiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="SistemaBasico001Model.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="SistemaBasico001Model.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -123,5 +123,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Boleto">
+      <EntityTypeMapping TypeName="SistemaBasico001Model.Boleto">
+        <MappingFragment StoreEntitySet="Boleto">
+          <ScalarProperty Name="Desconto" ColumnName="Desconto" />
+          <ScalarProperty Name="Multa" ColumnName="Multa" />
+          <ScalarProperty Name="ValorPago" ColumnName="ValorPago" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IDAluno" ColumnName="IDAluno" />
+          <ScalarProperty Name="IDMateria" ColumnName="IDMateria" />
+          <ScalarProperty Name="DataPagamento" ColumnName="DataPagamento" />
+          <ScalarProperty Name="Valor" ColumnName="Valor" />
+          <ScalarProperty Name="DataVencimento" ColumnName="DataVencimento" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="SistemaBasico001Model.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="SistemaBasico001Model.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="SistemaBasico001Model.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="SistemaBasico001Model.Store.sp_helpdiagramdefinition" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="SistemaBasico001Model.Store.sp_helpdiagrams" />
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="SistemaBasico001Model.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="SistemaBasico001Model.Store.sp_upgraddiagrams" />
   </EntityContainerMapping>
 </Mapping>
